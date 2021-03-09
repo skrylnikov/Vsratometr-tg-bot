@@ -2,7 +2,7 @@ import { Context } from 'telegraf';
 import { uniq } from 'remeda';
 
 import { isPlus, isMinus } from '../utils';
-import { Stats, Chats } from '../db';
+import { StatsBottom, StatsTop, Chats } from '../db';
 
 
 const cooldownSet = new Set<string>();
@@ -14,12 +14,15 @@ export const processMessage = async (ctx: Context) => {
   if(!('reply_to_message' in ctx.message)){
     return;
   }
-  if(!('text' in ctx.message)){
+
+  const text = 'text' in ctx.message ? ctx.message.text : 'sticker' in ctx.message ? ctx.message.sticker.emoji : '';
+
+  if(!text){
     return;
   }
 
-  const plus = isPlus(ctx.message.text);
-  const minus = isMinus(ctx.message.text);
+  const plus = isPlus(text);
+  const minus = isMinus(text);
 
   if(!plus && !minus){
     return;
@@ -56,6 +59,8 @@ export const processMessage = async (ctx: Context) => {
 
   const userKey = `${chatId}:${userId}`;
 
+  const Stats = (plus ? StatsTop : StatsBottom);
+
   const statValue = await Stats.get(userKey);
   const value = plus ? 1 : -1;
   const newStat = typeof statValue === 'number' && Number.isFinite(statValue) ? statValue + value : value;
@@ -84,6 +89,6 @@ export const processMessage = async (ctx: Context) => {
 
 
 
-  ctx.reply(`${ctx.message.from.username} ${plus ? 'увеличил': 'уменьшил'}  ${userName}(${newStat})`);
+  ctx.reply(`${ctx.message.from.username} ${plus ? 'поднял в топе': 'опустил на дно'}  ${userName}(${newStat})`);
   
 }
