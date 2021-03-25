@@ -37,7 +37,7 @@ export const stats = async (ctx: Context) => {
   const top = sortBy(userList, (x) => x.value)
     .reverse()
     .filter((_, i) => i<=4)
-    .map(({value, user}, i) => `${convertLevel(i+1)}. ${user.user.username || 'Безымянный пидр'}: ${value}`)
+    .map(({value, user}, i) => `${convertLevel(i+1)} ${user.user.username || 'Безымянный пидр'}: ${value}`)
     .join('\n');
 
     const userBottomList = await Promise.all(chat.members.map( async(userId) => ({
@@ -47,7 +47,7 @@ export const stats = async (ctx: Context) => {
   
     const bottom = sortBy(userBottomList, (x) => x.value)
       .filter((_, i) => i<=4)
-      .map(({value, user}, i) => `${convertLevel(i+1)}. ${user.user.username || 'Безымянный пидр'}: ${value}`)
+      .map(({value, user}, i) => `${convertLevel(i+1)} ${user.user.username || 'Безымянный пидр'}: ${value}`)
       .join('\n');
 
   ctx.reply('TOP:\n' + top + '\n\nХУЕТОП:\n' + bottom);
