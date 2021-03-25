@@ -40,6 +40,6 @@ export const stats = async (ctx: Context) => {
       .map(({value, user}, i) => `${i+1}. ${user.user.username || 'Безымянный пидр'}: ${value}`)
       .join('\n');
 
-  ctx.reply('TOP:\n' + top + '\nХУЕТОП:\n' + bottom);
+  ctx.reply('TOP:\n' + top + '\n\nХУЕТОП:\n' + bottom);
 
 }
