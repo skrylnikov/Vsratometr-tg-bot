@@ -41,7 +41,7 @@ export const processMessage = async (ctx: Context) => {
 
   const chatId = ctx.chat?.id;
   const userId = ctx.message.reply_to_message?.from?.id;
-  const userName = ctx.message.reply_to_message?.from?.username;
+  const userName = ctx.message.reply_to_message?.from?.username || 'Безымянный пидр';
 
   if(!chatId || !userId){
     return;
@@ -89,6 +89,6 @@ export const processMessage = async (ctx: Context) => {
 
 
 
-  ctx.reply(`${ctx.message.from.username} ${plus ? 'поднял в топе': 'опустил на дно'}  ${userName}(${newStat})`);
+  ctx.reply(`${ctx.message.from.username || 'Безымянный пидр'} ${plus ? 'поднял в топе': 'опустил на дно'}  ${userName}(${newStat})`);
   
 }

@@ -4,7 +4,7 @@ export const tokenize = (text: string) => {
   return shortText.split(/\s|\.|,|!|\?/).filter((x) => x.length !==0);
 }
 
-const plusSet = new Set([
+const plusList = [
   '+',
   '++',
   '+++',
@@ -15,14 +15,14 @@ const plusSet = new Set([
   '👍👍👍',
   '👍👍👍👍',
   '👍👍👍👍👍',
-]);
+];
 
 export const isPlus = (text: string) => {
-  return plusSet.has(text);
+  return plusList.some((x) => text.indexOf(x) === 0);
 }
 
 
-const minusSet = new Set([
+const minusList = [
   '-',
   '--',
   '---',
@@ -33,8 +33,8 @@ const minusSet = new Set([
   '👎👎👎',
   '👎👎👎👎',
   '👎👎👎👎👎',
-]);
+];
 
 export const isMinus = (text: string) => {
-  return minusSet.has(text);
+  return minusList.some((x) => text.indexOf(x) === 0);
 }
