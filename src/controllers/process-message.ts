@@ -54,7 +54,7 @@ export const processMessage = async (ctx: Context) => {
     return;
   } else {
     cooldownSet.add(cooldownKey);
-    setTimeout(() => cooldownSet.delete(cooldownKey), 60 * 10 * 1000);
+    setTimeout(() => cooldownSet.delete(cooldownKey), 60 * 1000);
   }
 
   const userKey = `${chatId}:${userId}`;
