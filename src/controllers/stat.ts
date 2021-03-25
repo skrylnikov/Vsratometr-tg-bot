@@ -3,6 +3,16 @@ import { pipe, filter, sortBy, map } from 'remeda';
 
 import { StatsTop, StatsBottom, Chats } from '../db';
 
+
+const convertLevel = (value: number) => {
+  switch (value) {
+    case 1: return '🥇';
+    case 2: return '🥈';
+    case 3: return '🥉';
+    default: return value;
+  }
+}
+
 export const stats = async (ctx: Context) => {
   const chatId = ctx.chat?.id;
   if(!chatId){
@@ -27,7 +37,7 @@ export const stats = async (ctx: Context) => {
   const top = sortBy(userList, (x) => x.value)
     .reverse()
     .filter((_, i) => i<=4)
-    .map(({value, user}, i) => `${i+1}. ${user.user.username || 'Безымянный пидр'}: ${value}`)
+    .map(({value, user}, i) => `${convertLevel(i+1)}. ${user.user.username || 'Безымянный пидр'}: ${value}`)
     .join('\n');
 
     const userBottomList = await Promise.all(chat.members.map( async(userId) => ({
@@ -37,7 +47,7 @@ export const stats = async (ctx: Context) => {
   
     const bottom = sortBy(userBottomList, (x) => x.value)
       .filter((_, i) => i<=4)
-      .map(({value, user}, i) => `${i+1}. ${user.user.username || 'Безымянный пидр'}: ${value}`)
+      .map(({value, user}, i) => `${convertLevel(i+1)}. ${user.user.username || 'Безымянный пидр'}: ${value}`)
       .join('\n');
 
   ctx.reply('TOP:\n' + top + '\n\nХУЕТОП:\n' + bottom);
