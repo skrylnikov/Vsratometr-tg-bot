@@ -31,23 +31,27 @@ export const stats = async (ctx: Context) => {
   
   const userList = await Promise.all(chat.members.map( async(userId) => ({
     value: await StatsTop.get(`${chatId}:${userId}`) || 0,
-    user: await ctx.getChatMember(userId),
+    userName: await ctx.getChatMember(userId)
+    .then((x) => x.user.username || 'Безымянный пидр')
+    .catch(() => 'Ливнувший пидр'),
   })));
 
   const top = sortBy(userList, (x) => x.value)
     .reverse()
     .filter((_, i) => i<=4)
-    .map(({value, user}, i) => `${convertLevel(i+1)} ${user.user.username || 'Безымянный пидр'}: ${value}`)
+    .map(({value, userName}, i) => `${convertLevel(i+1)} ${userName}: ${value}`)
     .join('\n');
 
     const userBottomList = await Promise.all(chat.members.map( async(userId) => ({
       value: await StatsBottom.get(`${chatId}:${userId}`) || 0,
-      user: await ctx.getChatMember(userId),
+      userName: await ctx.getChatMember(userId)
+        .then((x) => x.user.username || 'Безымянный пидр')
+        .catch(() => 'Ливнувший пидр'),
     })));
   
     const bottom = sortBy(userBottomList, (x) => x.value)
       .filter((_, i) => i<=4)
-      .map(({value, user}, i) => `${convertLevel(i+1)} ${user.user.username || 'Безымянный пидр'}: ${value}`)
+      .map(({value, userName}, i) => `${convertLevel(i+1)} ${userName}: ${value}`)
       .join('\n');
 
   ctx.reply('TOP:\n' + top + '\n\nХУЕТОП:\n' + bottom);

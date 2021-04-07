@@ -24,9 +24,16 @@ const plusList = [
   'пиздато',
   'ахуенно',
   'ахуено',
+  'плюс',
 ];
 
-export const isPlus = (text: string) => {
+export const isPlus = (rawText: string) => {
+  const text = rawText.toLowerCase();
+
+  if(text.length >10){
+    return false;
+  }
+  
   return plusList.some((x) => text.indexOf(x) === 0);
 }
 
@@ -51,8 +58,15 @@ const minusList = [
   'пиздец',
   'хуево',
   'хуёво',
+  'минус',
 ];
 
-export const isMinus = (text: string) => {
+export const isMinus = (rawText: string) => {
+  const text = rawText.toLowerCase();
+
+  if(text.length >10){
+    return false;
+  }
+
   return minusList.some((x) => text.indexOf(x) === 0);
 }

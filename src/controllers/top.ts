@@ -21,13 +21,15 @@ export const top = async (ctx: Context) => {
   
   const userList = await Promise.all(chat.members.map( async(userId) => ({
     value: await StatsTop.get(`${chatId}:${userId}`) || 0,
-    user: await ctx.getChatMember(userId),
+    userName: await ctx.getChatMember(userId)
+    .then((x) => x.user.username || 'Безымянный пидр')
+    .catch(() => 'Ливнувший пидр'),
   })));
 
   const top = sortBy(userList, (x) => x.value)
     .reverse()
     .filter((_, i) => i<=10)
-    .map(({value, user}, i) => `${i+1}. ${user.user.username || 'Безымянный пидр'}: ${value}`)
+    .map(({value, userName}, i) => `${i+1}. ${userName}: ${value}`)
     .join('\n');
 
   ctx.reply('TOP:\n' + top);
