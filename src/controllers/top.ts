@@ -4,6 +4,9 @@ import { pipe, filter, sortBy, map } from 'remeda';
 import { StatsTop, Chats } from '../db';
 
 export const top = async (ctx: Context) => {
+  ctx.reply('Автору сиего чудо бота было лень дописывать. юзай /stats');
+
+  /*
   const chatId = ctx.chat?.id;
   if(!chatId){
     return;
@@ -33,5 +36,5 @@ export const top = async (ctx: Context) => {
     .join('\n');
 
   ctx.reply('TOP:\n' + top);
-
+  */
 }
