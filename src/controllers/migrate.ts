@@ -51,8 +51,8 @@ export const migrate = async (ctx: Context) => {
     userId: x.userId,
     chatId: chatId,
     name: x.userName,
-    value: x.value,
+    value: x.value * -1,
   })));
 
-  ctx.reply(`Смигрировал: ${plusResult.length} записей из топ, ${minusResult} записей из дна`);
+  ctx.reply(`Смигрировал: ${plusResult.length} записей из топ, ${minusResult.length} записей из дна`);
 }
