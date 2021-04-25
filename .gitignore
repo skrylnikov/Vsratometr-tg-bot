@@ -7,5 +7,6 @@
 !.yarn/versions
 
 data/*.json
+data/*.sqlite
 
 .env
