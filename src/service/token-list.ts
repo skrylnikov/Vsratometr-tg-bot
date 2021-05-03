@@ -48,12 +48,14 @@ const parseList = (list: IRaw[]) => list.map(([value, count]) => {
     return value;
   }
   let result = '';
+  const resultArray: string[] = [];
   for (let i = 0; i < count; i++) {
     result += value;
+    resultArray.push(result);
   }
 
-  return value;
-});
+  return resultArray;
+}).flat();
 
 export const plusAndMinusList = [
   '+-',
