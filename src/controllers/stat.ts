@@ -1,7 +1,6 @@
 import { Context } from 'telegraf';
 import { pipe, filter, sortBy, map, sort } from 'remeda';
 
-import { StatsTop, StatsBottom, Chats } from '../db';
 import { Minus, Plus } from '../models';
 
 
@@ -85,6 +84,6 @@ export const stats = async (ctx: Context) => {
       .map(({value, userName}, i) => `${convertLevel(i+1)} ${userName}: ${value}`)
       .join('\n');
 */
-  ctx.reply('TOP:\n' + top + '\n\nХУЕТОП:\n' + bottom);
+  ctx.reply('ТОП:\n' + top + '\n\nХУЕТОП:\n' + bottom);
 
 }

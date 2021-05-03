@@ -1,7 +1,6 @@
 import { Context } from 'telegraf';
 import { uniq } from 'remeda';
 
-import { StatsBottom, StatsTop, Chats } from '../db';
 import { Action, getAction } from '../service';
 import { Minus, Plus, Post } from '../models';
 
@@ -98,6 +97,7 @@ export const processMessage = async (ctx: Context) => {
           plus: 0,
           minus: 0,
           url,
+          created: new Date(),
         }
       })
     ]);
@@ -142,6 +142,7 @@ export const processMessage = async (ctx: Context) => {
           plus: 0,
           minus: 0,
           url,
+          created: new Date(),
         }
       })
     ]);
@@ -198,6 +199,7 @@ export const processMessage = async (ctx: Context) => {
           plus: 0,
           minus: 0,
           url,
+          created: new Date(),
         }
       })
     ]);

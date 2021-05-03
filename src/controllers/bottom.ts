@@ -1,8 +1,6 @@
 import { Context } from 'telegraf';
 import { pipe, filter, sortBy, map } from 'remeda';
 
-import { StatsBottom, Chats } from '../db';
-
 export const bottom = async (ctx: Context) => {
   ctx.reply('Автору сиего чудо бота было лень дописывать. юзай /stats');
   /*

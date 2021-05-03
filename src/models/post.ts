@@ -9,6 +9,7 @@ interface PostAttributes {
   plus: number;
   minus: number;
   url: string;
+  created: Date;
 }
 
 export class Post extends Model<PostAttributes, PostAttributes> {
@@ -18,6 +19,7 @@ export class Post extends Model<PostAttributes, PostAttributes> {
   public plus!: number;
   public minus!: number;
   public url!: string;
+  public created?: Date;
 }
 
 Post.init(
@@ -50,6 +52,10 @@ Post.init(
     },
     url: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    created: {
+      type: DataTypes.DATE,
       allowNull: false,
     }
   },

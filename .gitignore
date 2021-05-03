@@ -6,7 +6,6 @@
 !.yarn/sdks
 !.yarn/versions
 
-data/*.json
 data/*.sqlite
 
 .env
