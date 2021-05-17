@@ -17,5 +17,6 @@ bot.command('/post_stats_all', postStatsAll);
 bot.on('message', processMessage);
 bot.on('sticker', processMessage);
 
+bot.catch((e) => { console.error(e) });
 
 bot.launch();
