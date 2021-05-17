@@ -1,7 +1,6 @@
 import { Context } from 'telegraf';
 import { pipe, sort } from 'remeda';
-import { Op } from 'sequelize';
-import { subHours } from 'date-fns';
+
 
 import { Post } from '../models';
 
@@ -25,9 +24,6 @@ export const postStatsAll = async (ctx: Context) => {
   const postList = await Post.findAll({
     where: {
       chatId,
-      created: {
-        [Op.gte]: subHours(new Date(), 48),
-      },
     },
   });
 

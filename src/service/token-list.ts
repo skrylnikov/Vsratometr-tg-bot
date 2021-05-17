@@ -21,6 +21,7 @@ const rawPlusList: IRaw[] = [
   ['ахуенно'],
   ['ахуено'],
   ['плюс'],
+  ['хорошо'],
 ];
 
 const rawMinusList: IRaw[] = [
@@ -41,6 +42,7 @@ const rawMinusList: IRaw[] = [
   ['хуево'],
   ['хуёво'],
   ['минус'],
+  ['плохо'],
 ];
 
 const parseList = (list: IRaw[]) => list.map(([value, count]) => {

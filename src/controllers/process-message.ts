@@ -1,8 +1,7 @@
 import { Context } from 'telegraf';
-import { uniq } from 'remeda';
 
 import { Action, getAction } from '../service';
-import { Minus, Plus, Post } from '../models';
+import { Minus, Plus, Post, sequelize } from '../models';
 
 
 const cooldownSet = new Set<string>();
@@ -71,190 +70,190 @@ export const processMessage = async (ctx: Context) => {
 
 
   if (action === Action.plus) {
-    const [[plus], [post]] = await Promise.all([
-      Plus.findOrCreate({
-        where: {
-          userId: objectId,
-          chatId: chatId,
-        },
-        defaults: {
-          userId: objectId,
-          chatId: chatId,
-          name: objectUserName,
-          value: 0,
-        },
-      }),
-      Post.findOrCreate({
-        where: {
-          userId: objectId,
-          chatId: chatId,
-          messageId,
-        },
-        defaults: {
-          userId: objectId,
-          chatId,
-          messageId,
-          plus: 0,
-          minus: 0,
-          url,
-          created: new Date(),
-        }
-      })
-    ]);
+    const transaction = await sequelize.transaction();
 
-    const value = plus.value + 1;
+    try {
+      const [[plus], [post]] = await Promise.all([
+        Plus.findOrCreate({
+          where: {
+            userId: objectId,
+            chatId: chatId,
+          },
+          defaults: {
+            userId: objectId,
+            chatId: chatId,
+            name: objectUserName,
+            value: 0,
+          },
+          transaction,
+        }),
+        Post.findOrCreate({
+          where: {
+            userId: objectId,
+            chatId: chatId,
+            messageId,
+          },
+          defaults: {
+            userId: objectId,
+            chatId,
+            messageId,
+            plus: 0,
+            minus: 0,
+            url,
+            created: new Date(),
+          },
+          transaction,
+        })
+      ]);
 
-    await plus.update({ value });
+      const value = plus.value + 1;
 
-    ctx.reply(`${subjectUserName} поднял(a) в топе ${objectUserName}(${value})`);
+      await plus.update({ value }, { transaction });
 
-    const postValue = post.plus + 1;
+      ctx.reply(`${subjectUserName} поднял(a) в топе ${objectUserName}(${value})`);
 
-    await post.update({ plus: postValue });
+      const postValue = post.plus + 1;
 
+      await post.update({ plus: postValue }, { transaction });
+
+      await transaction.commit();
+
+    } catch (e) {
+      console.error(e);
+
+      await transaction.rollback();
+    }
     return;
   }
 
   if (action === Action.minus) {
-    const [[minus], [post]] = await Promise.all([
-      Minus.findOrCreate({
-        where: {
-          userId: objectId,
-          chatId: chatId,
-        },
-        defaults: {
-          userId: objectId,
-          chatId: chatId,
-          name: objectUserName,
-          value: 0,
-        },
-      }),
-      Post.findOrCreate({
-        where: {
-          userId: objectId,
-          chatId: chatId,
-          messageId,
-        },
-        defaults: {
-          userId: objectId,
-          chatId,
-          messageId,
-          plus: 0,
-          minus: 0,
-          url,
-          created: new Date(),
-        }
-      })
-    ]);
+    const transaction = await sequelize.transaction();
 
-    const value = minus.value + 1;
+    try {
+      const [[minus], [post]] = await Promise.all([
+        Minus.findOrCreate({
+          where: {
+            userId: objectId,
+            chatId: chatId,
+          },
+          defaults: {
+            userId: objectId,
+            chatId: chatId,
+            name: objectUserName,
+            value: 0,
+          },
+          transaction,
+        }),
+        Post.findOrCreate({
+          where: {
+            userId: objectId,
+            chatId: chatId,
+            messageId,
+          },
+          defaults: {
+            userId: objectId,
+            chatId,
+            messageId,
+            plus: 0,
+            minus: 0,
+            url,
+            created: new Date(),
+          },
+          transaction,
+        })
+      ]);
 
-    await minus.update({ value });
+      const value = minus.value + 1;
 
-    ctx.reply(`${subjectUserName} опустил(a) на дно ${objectUserName}(${value})`);
+      await minus.update({ value }, { transaction });
 
-    const postValue = post.minus + 1;
+      ctx.reply(`${subjectUserName} опустил(a) на дно ${objectUserName}(${value})`);
 
-    await post.update({ minus: postValue });
+      const postValue = post.minus + 1;
+
+      await post.update({ minus: postValue }, { transaction });
+
+      await transaction.commit();
+
+    } catch (e) {
+      console.error(e);
+      await transaction.rollback();
+    }
 
     return;
   }
 
   if (action === Action.plusAndMinus) {
-    const [[plus], [minus], [post]] = await Promise.all([
-      Plus.findOrCreate({
-        where: {
-          userId: objectId,
-          chatId: chatId,
-        },
-        defaults: {
-          userId: objectId,
-          chatId: chatId,
-          name: objectUserName,
-          value: 0,
-        },
-      }),
-      Minus.findOrCreate({
-        where: {
-          userId: objectId,
-          chatId: chatId,
-        },
-        defaults: {
-          userId: objectId,
-          chatId: chatId,
-          name: objectUserName,
-          value: 0,
-        },
-      }),
-      Post.findOrCreate({
-        where: {
-          userId: objectId,
-          chatId: chatId,
-          messageId,
-        },
-        defaults: {
-          userId: objectId,
-          chatId,
-          messageId,
-          plus: 0,
-          minus: 0,
-          url,
-          created: new Date(),
-        }
-      })
-    ]);
+    const transaction = await sequelize.transaction();
+    try {
+      const [[plus], [minus], [post]] = await Promise.all([
+        Plus.findOrCreate({
+          where: {
+            userId: objectId,
+            chatId: chatId,
+          },
+          defaults: {
+            userId: objectId,
+            chatId: chatId,
+            name: objectUserName,
+            value: 0,
+          },
+          transaction,
+        }),
+        Minus.findOrCreate({
+          where: {
+            userId: objectId,
+            chatId: chatId,
+          },
+          defaults: {
+            userId: objectId,
+            chatId: chatId,
+            name: objectUserName,
+            value: 0,
+          },
+          transaction,
+        }),
+        Post.findOrCreate({
+          where: {
+            userId: objectId,
+            chatId: chatId,
+            messageId,
+          },
+          defaults: {
+            userId: objectId,
+            chatId,
+            messageId,
+            plus: 0,
+            minus: 0,
+            url,
+            created: new Date(),
+          },
+          transaction,
+        })
+      ]);
 
-    const plusValue = plus.value + 1;
-    const minusValue = minus.value + 1;
+      const plusValue = plus.value + 1;
+      const minusValue = minus.value + 1;
 
-    await Promise.all([
-      plus.update({ value: plusValue }),
-      minus.update({ value: minusValue }),
-    ]);
+      await Promise.all([
+        plus.update({ value: plusValue }, { transaction }),
+        minus.update({ value: minusValue }, { transaction }),
+      ]);
 
-    ctx.reply(`${subjectUserName} отсосал/отсосала/отлизал/отлизала ${objectUserName}(+${plusValue};-${minusValue})`);
+      ctx.reply(`${subjectUserName} поднял(а) в топе и опустил(а) на дно ${objectUserName}(+${plusValue};-${minusValue})`);
 
-    const postPlusValue = post.plus + 1;
-    const postMinusValue = post.minus + 1;
+      const postPlusValue = post.plus + 1;
+      const postMinusValue = post.minus + 1;
 
-    await post.update({ plus: postPlusValue, minus: postMinusValue });
+      await post.update({ plus: postPlusValue, minus: postMinusValue }, { transaction });
 
+      await transaction.commit();
+
+    } catch (e) {
+      console.error(e);
+      await transaction.rollback();
+    }
     return;
   }
 
-  /*
-  const userKey = `${chatId}:${objectId}`;
-
-  const Stats = (plus ? StatsTop : StatsBottom);
-
-  const statValue = await Stats.get(userKey);
-  const value = plus ? 1 : -1;
-  const newStat = typeof statValue === 'number' && Number.isFinite(statValue) ? statValue + value : value;
-
-  await Stats.set(userKey, newStat);
-
-
-  if(!Number.isFinite(statValue)){
-    await Stats.set(userKey, value);
-    const chatKey =`${chatId}`;
-
-    const chat = await Chats.get(chatKey);
-    if(chat){
-      await Chats.set(chatKey, {
-        ...chat,
-        members: uniq([...chat.members, objectId]),
-      });
-    } else {
-      await Chats.set(chatKey, {
-        id: chatId,
-        members: [objectId],
-      });
-    }
-  }
-
-
-
-
-  ctx.reply(`${ctx.message.from.username || 'Безымянный пидр'} ${plus ? 'поднял в топе': 'опустил на дно'}  ${objectUserName}(${newStat})`);
-  */
 }
