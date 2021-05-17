@@ -39,6 +39,7 @@ export const processMessage = async (ctx: Context) => {
 
   if (ctx.message.reply_to_message?.from?.id === (await ctx.telegram.getMe()).id) {
     ctx.reply('А ты случаем не ахуел меня оценивать??? Долбоёб!', { reply_to_message_id: ctx.message.message_id });
+    return;
   }
 
   const chatId = ctx.chat?.id;
