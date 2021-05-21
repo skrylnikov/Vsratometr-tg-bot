@@ -168,7 +168,7 @@ export const processMessage = async (ctx: Context) => {
 
       await minus.update({ value }, { transaction });
 
-      ctx.reply(`${subjectUserName} опустил(a) на дно ${objectUserName}(${value})`);
+      ctx.reply(`${subjectUserName} опустил(a) на дно ${objectUserName}(-${value})`);
 
       const postValue = post.minus + 1;
 
