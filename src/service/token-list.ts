@@ -22,6 +22,8 @@ const rawPlusList: IRaw[] = [
   ['ахуено'],
   ['плюс'],
   ['хорошо'],
+  ['сыр'],
+  ['каеф'],
 ];
 
 const rawMinusList: IRaw[] = [
