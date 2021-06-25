@@ -10,7 +10,7 @@ export enum Action {
 
 const randomRevertAction = () => {
   const random = Math.random();
-  return random <= 0.1;
+  return random <= 0.01;
 };
 
 export const getAction = (text: string): Action => {
