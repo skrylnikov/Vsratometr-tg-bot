@@ -8,7 +8,10 @@ export enum Action {
   plusAndMinus,
 }
 
-
+const randomRevertAction = () => {
+  const random = Math.random();
+  return random >= 0.1;
+};
 
 export const getAction = (text: string): Action => {
   const token = getFirstToken(text);
@@ -17,9 +20,9 @@ export const getAction = (text: string): Action => {
       case plusAndMinusList.some((x) => token === x):
         return Action.plusAndMinus;
       case plusList.some((x) => token === x):
-        return Action.plus;
+        return randomRevertAction() ? Action.minus : Action.plus;
       case minusList.some((x) => token === x):
-        return Action.minus;
+        return randomRevertAction() ? Action.plus : Action.minus;
       default:
         return Action.none;
     }
