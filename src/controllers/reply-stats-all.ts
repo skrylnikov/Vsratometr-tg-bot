@@ -31,7 +31,7 @@ export const replyStatsAll = async (ctx: Context) => {
   const top = pipe(
     postList,
     sort((a, b) => b.value - a.value),
-    (x) => x.filter(({ value }) => value > 5),
+    (x) => x.filter(({ value }) => value >= 5),
     (x) => x.filter((_, i) => i < 30),
     (x) => x.map(({ value, url }, i) => `${convertLevel(i + 1)} score: ${value}, url: ${url}`),
     (x) => x.join('\n'),
