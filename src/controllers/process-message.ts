@@ -148,7 +148,7 @@ export const processMessage = async (ctx: Context) => {
 
       await plus.update({ value }, { transaction });
 
-      ctx.reply(`${subjectUserName} поднял(a) в топе ${objectUserName}(${value})`);
+      ctx.reply(`Плюс к рейтингу ${subjectUserName} (${value}) от ${objectUserName}`);
 
       const postValue = post.plus + 1;
 
@@ -205,7 +205,7 @@ export const processMessage = async (ctx: Context) => {
 
       await minus.update({ value }, { transaction });
 
-      ctx.reply(`${subjectUserName} опустил(a) на дно ${objectUserName}(-${value})`);
+      ctx.reply(`Минус к рейтингу${subjectUserName}(-${value}) от ${objectUserName}`);
 
       const postValue = post.minus + 1;
 
@@ -278,7 +278,7 @@ export const processMessage = async (ctx: Context) => {
         minus.update({ value: minusValue }, { transaction }),
       ]);
 
-      ctx.reply(`${subjectUserName} поднял(а) в топе и опустил(а) на дно ${objectUserName}(+${plusValue};-${minusValue})`);
+      ctx.reply(`Плюс и минус к рейтингу${subjectUserName}(+${plusValue};-${minusValue}) от ${objectUserName}`);
 
       const postPlusValue = post.plus + 1;
       const postMinusValue = post.minus + 1;
