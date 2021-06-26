@@ -1,7 +1,7 @@
 import { Context } from 'telegraf';
 
 import { Action, getAction } from '../service';
-import { Minus, Plus, Post, sequelize } from '../models';
+import { Minus, Plus, Post, ReplyPost, sequelize } from '../models';
 
 
 const cooldownSet = new Set<string>();
@@ -16,11 +16,51 @@ export const processMessage = async (ctx: Context) => {
 
   const text = 'text' in ctx.message ? ctx.message.text : 'sticker' in ctx.message ? ctx.message.sticker.emoji : '';
 
+  const chatId = ctx.chat?.id;
+  const messageId = ctx.message.reply_to_message?.message_id;
+  const objectId = ctx.message.reply_to_message?.from?.id;
+
   if (!text) {
     return;
   }
 
-  const action = getAction(text)
+
+  if(ctx.message.reply_to_message?.from?.id !== ctx.message.from.id && chatId && messageId && objectId){
+
+    const url = `https://t.me/c/${chatId.toString().slice(4)}/${messageId}`;
+    
+    const transaction = await sequelize.transaction();
+
+    try {
+      
+      const [replyPost] = await ReplyPost.findOrCreate({
+        where: {
+          userId: objectId,
+          chatId: chatId,
+          messageId,
+        },
+        defaults: {
+          userId: objectId,
+          chatId,
+          messageId,
+          value: 0,
+          url,
+          created: new Date(),
+        },
+        transaction,
+      });
+
+      await replyPost.update({ value: replyPost.value + 1 }, { transaction });
+
+      await transaction.commit();
+    } catch (e) {
+      console.error(e);
+      await transaction.rollback();
+    }
+  }
+
+
+  const action = getAction(text);
 
   if (action === Action.none) {
     return;
@@ -42,9 +82,6 @@ export const processMessage = async (ctx: Context) => {
     return;
   }
 
-  const chatId = ctx.chat?.id;
-  const objectId = ctx.message.reply_to_message?.from?.id;
-  const messageId = ctx.message.reply_to_message?.message_id;
   console.log(ctx.message.reply_to_message);
 
 
