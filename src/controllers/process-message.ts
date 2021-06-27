@@ -1,7 +1,7 @@
 import { Context } from 'telegraf';
 
 import { Action, getAction } from '../service';
-import { Minus, Plus, Post, ReplyPost, sequelize } from '../models';
+import { Minus, Plus, Post, ReplyPost, User, sequelize } from '../models';
 
 
 const cooldownSet = new Set<string>();
@@ -10,13 +10,44 @@ export const processMessage = async (ctx: Context) => {
   if (!ctx.message) {
     return;
   }
+  const chatId = ctx.chat?.id;
+  const subjectId = ctx.message.from?.id;
+  const from = ctx.message.from;
+
+  if(from){
+    const transaction = await sequelize.transaction();
+
+    try {
+      const name = from.first_name || from.last_name || from.username || 'Анонимус';
+
+      const [user] = await User.findOrCreate({
+        where: {
+          userId: from.id,
+        },
+        defaults: {
+          userId: from.id,
+          name,
+        },
+        transaction,
+      });
+      if(user.name !== name){
+        await user.update({ name }, { transaction });
+      }
+
+      await transaction.commit();
+    } catch (e) {
+      console.error(e);
+      await transaction.rollback();
+    }
+  }
+
+
   if (!('reply_to_message' in ctx.message)) {
     return;
   }
 
   const text = 'text' in ctx.message ? ctx.message.text : 'sticker' in ctx.message ? ctx.message.sticker.emoji : '';
 
-  const chatId = ctx.chat?.id;
   const messageId = ctx.message.reply_to_message?.message_id;
   const objectId = ctx.message.reply_to_message?.from?.id;
 
@@ -85,7 +116,6 @@ export const processMessage = async (ctx: Context) => {
   console.log(ctx.message.reply_to_message);
 
 
-  const subjectId = ctx.message.from?.id;
   const objectUserName = ctx.message.reply_to_message?.from?.username || 'Безымянный пидр';
   const subjectUserName = ctx.message.from?.username || 'Безымянный пидр';
 

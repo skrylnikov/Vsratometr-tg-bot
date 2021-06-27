@@ -1,10 +1,7 @@
-import { Telegraf } from 'telegraf';
 
-import { token } from './config';
-
+import { bot } from './bot';
 import { start, processMessage, top, bottom, stats, postStats, postStatsAll, replyStats, replyStatsAll } from './controllers';
 
-const bot = new Telegraf(token);
 
 bot.start(start);
 

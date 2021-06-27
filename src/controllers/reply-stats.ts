@@ -5,6 +5,7 @@ import { subHours, format } from 'date-fns';;
 import locale from 'date-fns/locale/ru';
 
 import { ReplyPost } from '../models';
+import { getUserMap } from '../service';
 
 
 const convertLevel = (value: number) => {
@@ -22,7 +23,8 @@ export const replyStats = async (ctx: Context) => {
     return;
   }
 
-
+  
+  
   const postList = await ReplyPost.findAll({
     where: {
       chatId,
@@ -32,13 +34,17 @@ export const replyStats = async (ctx: Context) => {
     },
   });
 
+  const userMap = await getUserMap(postList.map((x) => x.userId), chatId);
+
+
+  
   const top = pipe(
     postList,
     sort((a, b) => b.value - a.value),
     (x) => x.filter(({ value }) => value >= 3),
     (x) => x.filter((_, i) => i < 30),
-    (x) => x.map(({ value, url, created }, i) => 
-    `${convertLevel(i + 1)} score: ${value}, [сообщение ${format(created || new Date(), 'd MMMM H:m', { locale })}](${url})`),
+    (x) => x.map(({ value, url, created, userId }, i) => 
+    `${convertLevel(i + 1)} score: ${value}, ${userMap.get(userId)?.name || 'Пидорас'} [сообщение ${format(created || new Date(), 'd MMMM H:m', { locale })}](${url})`),
     (x) => x.join('\n'),
   );
 
