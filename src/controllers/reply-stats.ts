@@ -41,15 +41,18 @@ export const replyStats = async (ctx: Context) => {
     postList,
     sort((a, b) => b.value - a.value),
     (x) => x.filter(({ value }) => value >= 3),
-    (x) => x.filter((_, i) => i < 30),
+    (x) => x.filter((_, i) => i < 15),
     (x) => x.map(({ value, url, created, userId, type }, i) =>{
       const user = userMap.get(userId);
 
       const date = created || new Date();
       const time = `${getDay(new Date()) !== getDay(date) ? 'вчера ' : ''}в ${format(date, 'H:m')}`;
 
+      const name = user?.name || 'Анонимус';
 
-      return `${convertLevel(i + 1)} ${user?.name || 'Анонимус'} ${time} → ${value} реплаев, [${convertMessageType(type)}](${url})`
+      const shortName = name.length > 13 ? (name.substring(0, 11) + '...') : name;
+
+      return `${convertLevel(i + 1)} ${shortName} ${time} → ${value}, [${convertMessageType(type)}](${url})`
     }),
     (x) => x.join('\n'),
   );

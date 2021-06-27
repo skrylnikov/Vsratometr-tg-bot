@@ -14,7 +14,7 @@ export const processMessage = async (ctx: Context) => {
   const subjectId = ctx.message.from?.id;
   const from = ctx.message.from;
 
-  if(from){
+  if(from && !from.is_bot){
     const transaction = await sequelize.transaction();
 
     try {
@@ -111,6 +111,11 @@ export const processMessage = async (ctx: Context) => {
 
   if (ctx.message.reply_to_message?.from?.id === (await ctx.telegram.getMe()).id) {
     ctx.reply('А ты случаем не ахуел меня оценивать??? Долбоёб!', { reply_to_message_id: ctx.message.message_id });
+    return;
+  }
+
+  if(from.is_bot){
+    ctx.reply('Отстать от ботов, тупой мясной мешок!', { reply_to_message_id: ctx.message.message_id });
     return;
   }
 
