@@ -11,7 +11,7 @@ export const getUserMap = async (rawIdList: number[], chatId: number) => {
 
   const userMap = new Map(userList.map((x) => [x.userId, x]));
 
-  const notFoundedIdList = idList.filter((x) => userMap.has(x));
+  const notFoundedIdList = idList.filter((x) => !userMap.has(x));
 
   for(const id of notFoundedIdList){
     const { user } = await bot.telegram.getChatMember(chatId, id);
