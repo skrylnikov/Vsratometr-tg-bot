@@ -12,7 +12,7 @@ const convertLevel = (value: number) => {
     case 1: return '🥇';
     case 2: return '🥈';
     case 3: return '🥉';
-    default: return '💩';
+    default: return '';
   }
 }
 
@@ -52,7 +52,7 @@ export const replyStats = async (ctx: Context) => {
 
       const shortName = name.length > 10 ? (name.substring(0, 9) + '...') : name;
 
-      return `${convertLevel(i + 1)} ${shortName} [${time} → ${value}](${url}), ${convertMessageType(type)}`
+      return `${convertMessageType(type)} ${shortName} [${time} → ${value}](${url}) ${convertLevel(i + 1)}`
     }),
     (x) => x.join('\n'),
   );
