@@ -1,6 +1,7 @@
 import { Context } from 'telegraf';
 import { pipe, sort } from 'remeda'
-import { format } from 'date-fns';;
+import { format } from 'date-fns';
+import locale from 'date-fns/locale/ru';
 
 import { ReplyPost } from '../models';
 
@@ -32,7 +33,8 @@ export const replyStatsAll = async (ctx: Context) => {
     sort((a, b) => b.value - a.value),
     (x) => x.filter(({ value }) => value >= 5),
     (x) => x.filter((_, i) => i < 30),
-    (x) => x.map(({ value, url, created }, i) => `${convertLevel(i + 1)} score: ${value}, [сообщение ${format(created || new Date(), 'd MMMM H:m')}](${url})`),
+    (x) => x.map(({ value, url, created }, i) => 
+    `${convertLevel(i + 1)} score: ${value}, [сообщение ${format(created || new Date(), 'd MMMM H:m', { locale })}](${url})`),
     (x) => x.join('\n'),
   );
 

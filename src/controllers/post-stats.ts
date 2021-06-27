@@ -1,7 +1,8 @@
 import { Context } from 'telegraf';
 import { pipe, sort } from 'remeda'
 import { Op } from 'sequelize';
-import { subHours, format } from 'date-fns';;
+import { subHours, format } from 'date-fns';
+import locale from 'date-fns/locale/ru';
 
 import { Post } from '../models';
 
@@ -36,7 +37,8 @@ export const postStats = async (ctx: Context) => {
     sort((a, b) => (b.plus + b.minus) - (a.plus + a.minus)),
     (x) => x.filter(({ plus, minus }) => plus > 1 && minus > 1 && (plus + minus) > 3),
     (x) => x.filter((_, i) => i < 10),
-    (x) => x.map(({ plus, minus, url, created }, i) => `${convertLevel(i + 1)} score: ${plus + minus}, [сообщение ${format(created || new Date(), 'd MMMM H:m')}](${url})`),
+    (x) => x.map(({ plus, minus, url, created }, i) =>
+    `${convertLevel(i + 1)} score: ${plus + minus}, [сообщение ${format(created || new Date(), 'd MMMM H:m', { locale })}](${url})`),
     (x) => x.join('\n'),
   );
 
@@ -46,7 +48,8 @@ export const postStats = async (ctx: Context) => {
     (x) => x.filter(({ plus }) => plus > 0),
     (x) => x.filter(({ plus }) => plus > 1),
     (x) => x.filter((_, i) => i < 10),
-    (x) => x.map(({ plus, url, created }, i) => `${convertLevel(i + 1)} score: +${plus}, [сообщение ${format(created || new Date(), 'd MMMM H:m')}](${url})`),
+    (x) => x.map(({ plus, url, created }, i) =>
+    `${convertLevel(i + 1)} score: +${plus}, [сообщение ${format(created || new Date(), 'd MMMM H:m', { locale })}](${url})`),
     (x) => x.join('\n'),
   );
 
@@ -56,7 +59,8 @@ export const postStats = async (ctx: Context) => {
     (x) => x.filter(({ minus }) => minus > 0),
     (x) => x.filter(({ minus }) => minus > 1),
     (x) => x.filter((_, i) => i < 10),
-    (x) => x.map(({ minus, url, created }, i) => `${convertLevel(i + 1)} score: -${minus}, [сообщение ${format(created || new Date(), 'd MMMM H:m')}](${url})`),
+    (x) => x.map(({ minus, url, created }, i) =>
+    `${convertLevel(i + 1)} score: -${minus}, [сообщение ${format(created || new Date(), 'd MMMM H:m', { locale })}](${url})`),
     (x) => x.join('\n'),
   );
 

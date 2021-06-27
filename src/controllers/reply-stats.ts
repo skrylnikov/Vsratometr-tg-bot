@@ -2,6 +2,7 @@ import { Context } from 'telegraf';
 import { pipe, sort } from 'remeda'
 import { Op } from 'sequelize';
 import { subHours, format } from 'date-fns';;
+import locale from 'date-fns/locale/ru';
 
 import { ReplyPost } from '../models';
 
@@ -37,7 +38,7 @@ export const replyStats = async (ctx: Context) => {
     (x) => x.filter(({ value }) => value >= 3),
     (x) => x.filter((_, i) => i < 30),
     (x) => x.map(({ value, url, created }, i) => 
-    `${convertLevel(i + 1)} score: ${value}, [сообщение ${format(created || new Date(), 'd MMMM H:m')}](${url})`),
+    `${convertLevel(i + 1)} score: ${value}, [сообщение ${format(created || new Date(), 'd MMMM H:m', { locale })}](${url})`),
     (x) => x.join('\n'),
   );
 
