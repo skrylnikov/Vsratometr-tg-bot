@@ -59,8 +59,12 @@ export const postStats = async (ctx: Context) => {
     (x) => x.filter(({ minus }) => minus > 0),
     (x) => x.filter(({ minus }) => minus > 1),
     (x) => x.filter((_, i) => i < 10),
-    (x) => x.map(({ minus, url, created }, i) =>
-    `${convertLevel(i + 1)} score: -${minus}, [сообщение ${format(created || new Date(), 'd MMMM H:m', { locale })}](${url})`),
+    (x) => x.map(({ minus, url, created }, i) =>{
+
+      
+
+      return `${convertLevel(i + 1)} score: -${minus}, [сообщение ${format(created || new Date(), 'd MMMM H:m', { locale })}](${url})`;
+    }),
     (x) => x.join('\n'),
   );
 

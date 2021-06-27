@@ -1,7 +1,7 @@
 import { Context } from 'telegraf';
 import { pipe, sort } from 'remeda'
 import { Op } from 'sequelize';
-import { subHours, format } from 'date-fns';;
+import { subHours, format, getDay } from 'date-fns';;
 import locale from 'date-fns/locale/ru';
 
 import { ReplyPost } from '../models';
@@ -43,8 +43,17 @@ export const replyStats = async (ctx: Context) => {
     sort((a, b) => b.value - a.value),
     (x) => x.filter(({ value }) => value >= 3),
     (x) => x.filter((_, i) => i < 30),
-    (x) => x.map(({ value, url, created, userId }, i) => 
-    `${convertLevel(i + 1)} score: ${value}, ${userMap.get(userId)?.name || 'Пидорас'} [сообщение ${format(created || new Date(), 'd MMMM H:m', { locale })}](${url})`),
+    (x) => x.map(({ value, url, created, userId }, i) =>{
+      const user = userMap.get(userId);
+      const userLink = `[${user?.name || 'Анонимус'}](tg://user?id=${userId})`
+
+      const date = created || new Date();
+      const time = `${getDay(new Date()) !== getDay(date) ? 'Вчера ' : ''}в ${format(date, 'H:m')}`;
+
+
+      return `${convertLevel(i + 1)} ${userLink} ${time} [отправил сообщение](${url}) и получил ${value} реплаев`
+      // return `${convertLevel(i + 1)} score: ${value}, ${userLink} [сообщение ${format(created || new Date(), 'd MMMM H:m', { locale })}](${url})`
+    }),
     (x) => x.join('\n'),
   );
 
