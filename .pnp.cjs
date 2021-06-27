@@ -48,6 +48,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sqlite3", "virtual:a9158c5327a43ec172ed34979a4a38d7aa7e26642ba9891f2c0029deb46bc05cf5a855215c772bf4988dd53cb0329ca8c0b78dd54a9a437b3681bc2a616927d6#npm:5.0.2"],
             ["telegraf", "npm:4.1.1"],
             ["ts-node-dev", "virtual:a9158c5327a43ec172ed34979a4a38d7aa7e26642ba9891f2c0029deb46bc05cf5a855215c772bf4988dd53cb0329ca8c0b78dd54a9a437b3681bc2a616927d6#npm:1.1.6"],
+            ["typegram", "npm:3.3.1"],
             ["typescript", "patch:typescript@npm%3A4.2.2#builtin<compat/typescript>::version=4.2.2&hash=a45b0e"],
             ["umzug", "npm:3.0.0-beta.15"]
           ],
@@ -2571,6 +2572,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typegram", "npm:3.1.10"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:3.3.1", {
+          "packageLocation": "./.yarn/cache/typegram-npm-3.3.1-04407fb6c8-11e4b59ff0.zip/node_modules/typegram/",
+          "packageDependencies": [
+            ["typegram", "npm:3.3.1"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["typescript", [
@@ -2681,6 +2689,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sqlite3", "virtual:a9158c5327a43ec172ed34979a4a38d7aa7e26642ba9891f2c0029deb46bc05cf5a855215c772bf4988dd53cb0329ca8c0b78dd54a9a437b3681bc2a616927d6#npm:5.0.2"],
             ["telegraf", "npm:4.1.1"],
             ["ts-node-dev", "virtual:a9158c5327a43ec172ed34979a4a38d7aa7e26642ba9891f2c0029deb46bc05cf5a855215c772bf4988dd53cb0329ca8c0b78dd54a9a437b3681bc2a616927d6#npm:1.1.6"],
+            ["typegram", "npm:3.3.1"],
             ["typescript", "patch:typescript@npm%3A4.2.2#builtin<compat/typescript>::version=4.2.2&hash=a45b0e"],
             ["umzug", "npm:3.0.0-beta.15"]
           ],

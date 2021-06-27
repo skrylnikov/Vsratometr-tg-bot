@@ -9,6 +9,7 @@ interface ReplyPostAttributes {
   value: number;
   url: string;
   created: Date;
+  type: string;
 }
 
 export class ReplyPost extends Model<ReplyPostAttributes, ReplyPostAttributes> {
@@ -18,6 +19,7 @@ export class ReplyPost extends Model<ReplyPostAttributes, ReplyPostAttributes> {
   public value!: number;
   public url!: string;
   public created?: Date;
+  public type?: string;;
 }
 
 ReplyPost.init(
@@ -50,6 +52,10 @@ ReplyPost.init(
     },
     created: {
       type: DataTypes.DATE,
+      allowNull: false,
+    },
+    type: {
+      type: DataTypes.STRING(127),
       allowNull: false,
     }
   },

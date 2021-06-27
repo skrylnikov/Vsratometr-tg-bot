@@ -1,6 +1,6 @@
 import { Context } from 'telegraf';
 
-import { Action, getAction } from '../service';
+import { Action, getAction, getMessageType } from '../service';
 import { Minus, Plus, Post, ReplyPost, User, sequelize } from '../models';
 
 
@@ -77,6 +77,7 @@ export const processMessage = async (ctx: Context) => {
           value: 0,
           url,
           created: new Date(),
+          type: getMessageType(ctx.message),
         },
         transaction,
       });
@@ -169,6 +170,7 @@ export const processMessage = async (ctx: Context) => {
             minus: 0,
             url,
             created: new Date(),
+            type: getMessageType(ctx.message),
           },
           transaction,
         })
@@ -226,6 +228,7 @@ export const processMessage = async (ctx: Context) => {
             minus: 0,
             url,
             created: new Date(),
+            type: getMessageType(ctx.message),
           },
           transaction,
         })
@@ -295,6 +298,7 @@ export const processMessage = async (ctx: Context) => {
             minus: 0,
             url,
             created: new Date(),
+            type: getMessageType(ctx.message),
           },
           transaction,
         })

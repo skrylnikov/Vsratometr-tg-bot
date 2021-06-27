@@ -1,11 +1,10 @@
 import { Context } from 'telegraf';
 import { pipe, sort } from 'remeda'
 import { Op } from 'sequelize';
-import { subHours, format, getDay } from 'date-fns';;
-import locale from 'date-fns/locale/ru';
+import { subHours, format, getDay } from 'date-fns';
 
 import { ReplyPost } from '../models';
-import { getUserMap } from '../service';
+import { getUserMap, convertMessageType } from '../service';
 
 
 const convertLevel = (value: number) => {
@@ -43,14 +42,14 @@ export const replyStats = async (ctx: Context) => {
     sort((a, b) => b.value - a.value),
     (x) => x.filter(({ value }) => value >= 3),
     (x) => x.filter((_, i) => i < 30),
-    (x) => x.map(({ value, url, created, userId }, i) =>{
+    (x) => x.map(({ value, url, created, userId, type }, i) =>{
       const user = userMap.get(userId);
 
       const date = created || new Date();
       const time = `${getDay(new Date()) !== getDay(date) ? 'вчера ' : ''}в ${format(date, 'H:m')}`;
 
 
-      return `${convertLevel(i + 1)} ${user?.name || 'Анонимус'} ${time} → ${value} реплаев, [говно](${url})`
+      return `${convertLevel(i + 1)} ${user?.name || 'Анонимус'} ${time} → ${value} реплаев, [${convertMessageType(type)}](${url})`
     }),
     (x) => x.join('\n'),
   );
