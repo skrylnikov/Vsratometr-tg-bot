@@ -32,7 +32,7 @@ export const replyStatsAll = async (ctx: Context) => {
     sort((a, b) => b.value - a.value),
     (x) => x.filter(({ value }) => value >= 5),
     (x) => x.filter((_, i) => i < 30),
-    (x) => x.map(({ value, url, created }, i) => `${convertLevel(i + 1)} score: ${value}, [сообщение ${format(created || new Date(), 'M-d H:m')}](${url})`),
+    (x) => x.map(({ value, url, created }, i) => `${convertLevel(i + 1)} score: ${value}, [сообщение ${format(created || new Date(), 'd MMMM H:m')}](${url})`),
     (x) => x.join('\n'),
   );
 

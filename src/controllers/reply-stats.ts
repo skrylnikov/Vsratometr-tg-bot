@@ -37,7 +37,7 @@ export const replyStats = async (ctx: Context) => {
     (x) => x.filter(({ value }) => value >= 3),
     (x) => x.filter((_, i) => i < 30),
     (x) => x.map(({ value, url, created }, i) => 
-    `${convertLevel(i + 1)} score: ${value}, [сообщение ${format(created || new Date(), 'M-d H:m')}](${url})`),
+    `${convertLevel(i + 1)} score: ${value}, [сообщение ${format(created || new Date(), 'd MMMM H:m')}](${url})`),
     (x) => x.join('\n'),
   );
 
