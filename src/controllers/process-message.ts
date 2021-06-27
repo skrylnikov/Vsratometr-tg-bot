@@ -56,7 +56,7 @@ export const processMessage = async (ctx: Context) => {
   }
 
 
-  if(ctx.message.reply_to_message?.from?.id !== ctx.message.from.id && chatId && messageId && objectId){
+  if(ctx.message.reply_to_message && ctx.message.reply_to_message?.from?.id !== ctx.message.from.id && chatId && messageId && objectId){
 
     const url = `https://t.me/c/${chatId.toString().slice(4)}/${messageId}`;
     
@@ -77,7 +77,7 @@ export const processMessage = async (ctx: Context) => {
           value: 0,
           url,
           created: new Date(),
-          type: getMessageType(ctx.message),
+          type: getMessageType(ctx.message.reply_to_message),
         },
         transaction,
       });
@@ -170,7 +170,7 @@ export const processMessage = async (ctx: Context) => {
             minus: 0,
             url,
             created: new Date(),
-            type: getMessageType(ctx.message),
+            type: getMessageType(ctx.message.reply_to_message as any),
           },
           transaction,
         })
@@ -228,7 +228,7 @@ export const processMessage = async (ctx: Context) => {
             minus: 0,
             url,
             created: new Date(),
-            type: getMessageType(ctx.message),
+            type: getMessageType(ctx.message.reply_to_message as any),
           },
           transaction,
         })
@@ -298,7 +298,7 @@ export const processMessage = async (ctx: Context) => {
             minus: 0,
             url,
             created: new Date(),
-            type: getMessageType(ctx.message),
+            type: getMessageType(ctx.message.reply_to_message as any),
           },
           transaction,
         })
