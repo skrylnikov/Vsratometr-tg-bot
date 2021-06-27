@@ -45,7 +45,7 @@ export const replyStats = async (ctx: Context) => {
     (x) => x.filter((_, i) => i < 30),
     (x) => x.map(({ value, url, created, userId }, i) =>{
       const user = userMap.get(userId);
-      const userLink = `[${user?.name || 'Анонимус'}](tg://user?id=${userId})`
+      const userLink = `[${user?.name || 'Анонимус'}](https://t.me/${userId})`
 
       const date = created || new Date();
       const time = `${getDay(new Date()) !== getDay(date) ? 'вчера ' : ''}в ${format(date, 'H:m')}`;
