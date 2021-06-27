@@ -13,7 +13,7 @@ const convertLevel = (value: number) => {
     case 1: return '🥇';
     case 2: return '🥈';
     case 3: return '🥉';
-    default: return '  ' + value + '.';
+    default: return '   ';
   }
 }
 
@@ -48,10 +48,10 @@ export const replyStats = async (ctx: Context) => {
       const userLink = `[${user?.name || 'Анонимус'}](tg://user?id=${userId})`
 
       const date = created || new Date();
-      const time = `${getDay(new Date()) !== getDay(date) ? 'Вчера ' : ''}в ${format(date, 'H:m')}`;
+      const time = `${getDay(new Date()) !== getDay(date) ? 'вчера ' : ''}в ${format(date, 'H:m')}`;
 
 
-      return `${convertLevel(i + 1)} ${userLink} ${time} [отправил сообщение](${url}) и получил ${value} реплаев`
+      return `${convertLevel(i + 1)} ${userLink} ${time} :${value} реплаев, [говно](${url})`
       // return `${convertLevel(i + 1)} score: ${value}, ${userLink} [сообщение ${format(created || new Date(), 'd MMMM H:m', { locale })}](${url})`
     }),
     (x) => x.join('\n'),
