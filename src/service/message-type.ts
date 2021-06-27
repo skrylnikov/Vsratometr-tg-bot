@@ -37,17 +37,16 @@ export const getMessageType = (message:  Message)=> {
 
 
 const messageTypeMap: Record<string, string> = {
-  'animation': 'анимация',
-  'audio': 'музыка',
-  'document': 'файл',
-  'photo': 'фото',
-  'poll': 'опрос',
-  'sticker': 'стикер',
-  'video': 'видео',
-  'video_note': 'кружочек',
-  'voice': 'войс',
-  'text': 'текст',
-  'unknown': 'неизвестный пост',
+  'audio': '🎧',
+  'document': '💾',
+  'photo': '🖼',
+  'poll': '⚖️',
+  'sticker': '🦆',
+  'video': '📹',
+  'video_note': '⚪',
+  'voice': '📢',
+  'text': '📝',
+  'unknown': '❔',
 };
 
-export const convertMessageType = (messageType?: string) => messageTypeMap[messageType || ''] || 'сообщение';
+export const convertMessageType = (messageType?: string) => messageTypeMap[messageType || ''] || '✉️';
