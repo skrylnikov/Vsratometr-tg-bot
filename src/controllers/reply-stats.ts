@@ -50,7 +50,7 @@ export const replyStats = async (ctx: Context) => {
 
       const name = user?.name || 'Анонимус';
 
-      const shortName = name.length > 13 ? (name.substring(0, 12) + '...') : name;
+      const shortName = name.length > 10 ? (name.substring(0, 9) + '...') : name;
 
       return `${convertLevel(i + 1)} ${shortName} [${time} → ${value}](${url}), ${convertMessageType(type)}`
     }),
