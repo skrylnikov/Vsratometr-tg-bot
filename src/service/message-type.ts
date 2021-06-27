@@ -50,4 +50,4 @@ const messageTypeMap: Record<string, string> = {
   'unknown': 'неизвестный пост',
 };
 
-export const convertMessageType = (messageType?: string) => messageTypeMap[messageType || ''] || 'Сообщение';
+export const convertMessageType = (messageType?: string) => messageTypeMap[messageType || ''] || 'сообщение';
