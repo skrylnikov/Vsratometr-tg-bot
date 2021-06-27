@@ -1,8 +1,12 @@
+import { uniq } from 'remeda';
+
 import { User } from '../models';
 import { bot } from '../bot';
 
 
-export const getUserMap = async (idList: number[], chatId: number) => {
+export const getUserMap = async (rawIdList: number[], chatId: number) => {
+  const idList = uniq(rawIdList);
+
   const userList = await User.findAll({where: { userId: idList }});
 
   const userMap = new Map(userList.map((x) => [x.userId, x]));
