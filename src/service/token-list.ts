@@ -70,6 +70,9 @@ const rawPlusList: ITokenConfig[] = [
   { token: 'спс'},
   { token: 'благодарю'},
   { token: 'найс'},
+  { token: 'пожалуйста'},
+  { token: 'не за что'},
+
 ];
 
 const rawMinusList: ITokenConfig[] = [
