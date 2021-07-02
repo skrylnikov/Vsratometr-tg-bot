@@ -28,7 +28,7 @@ export const getPostStats = async (chatId: number, lashHours?: number) => {
 
     const date = post.created || new Date();
     const dayDiff = getDay(new Date()) - getDay(date);
-    const time = `${dayDiff === 2 ? 'позавчера ' : dayDiff === 1 ? 'вчера ' : ''}в ${format(date, dayDiff > 2 ? 'dd-MM HH:mm' : 'HH:mm')}`;
+    const time = `${dayDiff === 2 ? 'позавчера ' : dayDiff === 1 ? 'вчера ' : ''}${format(date, dayDiff > 2 ? 'dd-MM в HH:mm' : 'в HH:mm')}`;
 
     const name = user?.name || 'Анонимус';
 
