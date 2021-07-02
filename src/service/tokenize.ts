@@ -7,7 +7,7 @@ const tokenize = (text: string) => {
 export const getFirstToken = (text: string): Maybe<string> => {
   const tokenList = tokenize(text);
 
-  if (tokenList.length === 0) {
+  if (tokenList.length === 0 || tokenList.length > 1) {
     return none();
   }
 
