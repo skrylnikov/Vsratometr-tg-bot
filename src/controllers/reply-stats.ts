@@ -46,7 +46,8 @@ export const replyStats = async (ctx: Context) => {
       const user = userMap.get(userId);
 
       const date = created || new Date();
-      const time = `${getDay(new Date()) !== getDay(date) ? 'вчера ' : ''}в ${format(date, 'H:m')}`;
+      const dayDiff = getDay(new Date()) - getDay(date);
+      const time = `${dayDiff === 2 ? 'позавчера ' : dayDiff === 1 ? 'вчера ' : ''}в ${format(date, 'H:m')}`;
 
       const name = user?.name || 'Анонимус';
 
