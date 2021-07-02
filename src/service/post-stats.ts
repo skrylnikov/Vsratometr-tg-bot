@@ -52,7 +52,7 @@ export const getPostStats = async (chatId: number, lashHours?: number) => {
     postList,
     sort((a, b) => b.plus - a.plus),
     (x) => x.filter(({ plus }) => plus > 1),
-    (x) => x.filter((_, i) => (lashHours ? 10 : 20)),
+    (x) => x.filter((_, i) => i < (lashHours ? 10 : 20)),
     (x) => x.map(postToString('plus')),
     (x) => x.join('\n'),
   );
@@ -61,7 +61,7 @@ export const getPostStats = async (chatId: number, lashHours?: number) => {
     postList,
     sort((a, b) => b.minus - a.minus),
     (x) => x.filter(({ minus }) => minus > 1),
-    (x) => x.filter((_, i) => (lashHours ? 10 : 20)),
+    (x) => x.filter((_, i) => i < (lashHours ? 10 : 20)),
     (x) => x.map(postToString('minus')),
     (x) => x.join('\n'),
   );
