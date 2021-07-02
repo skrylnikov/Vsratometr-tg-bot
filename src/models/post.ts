@@ -2,7 +2,7 @@ import { Model, DataTypes } from "sequelize";
 
 import { sequelize } from './connection';
 
-interface PostAttributes {
+export interface PostAttributes {
   userId: number;
   chatId: number;
   messageId: number;
@@ -20,8 +20,8 @@ export class Post extends Model<PostAttributes, PostAttributes> {
   public plus!: number;
   public minus!: number;
   public url!: string;
-  public created?: Date;
-  public type?: string;
+  public created!: Date;
+  public type!: string;
 }
 
 Post.init(

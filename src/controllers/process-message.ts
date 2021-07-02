@@ -82,7 +82,7 @@ export const processMessage = async (ctx: Context) => {
         transaction,
       });
 
-      await replyPost.update({ value: replyPost.value + 1 }, { transaction });
+      await replyPost.increment('value', { transaction });
 
       await transaction.commit();
     } catch (e) {
