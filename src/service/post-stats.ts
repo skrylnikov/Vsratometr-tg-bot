@@ -36,7 +36,7 @@ export const getPostStats = async (chatId: number, lashHours?: number) => {
 
     const value = type === 'all' ? post.plus + post.minus : type === 'plus' ? post.plus : post.minus;
 
-    return `${convertMessageType(type)} ${shortName} [${time} → ${value}](${post.url}) ${convertValueToMedal(i + 1)}`;
+    return `${convertMessageType(post.type)} ${shortName} [${time} → ${value}](${post.url}) ${convertValueToMedal(i + 1)}`;
   };
   
   const superTop = pipe(
