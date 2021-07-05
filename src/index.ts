@@ -2,6 +2,9 @@
 import { bot } from './bot';
 import { start, processMessage, top, bottom, stats, postStats, postStatsAll, replyStats, replyStatsAll } from './controllers';
 
+// Here, code praying to the GOD for protecting our open file from bugs and other things. 
+// This is really crucial step! Be adviced to not remove it, even if you don't believer. 
+console.log("Rahman ve Rahim olan Allah'ın Adıyla");
 
 bot.start(start);
 
