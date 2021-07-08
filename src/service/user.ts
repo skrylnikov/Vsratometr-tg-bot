@@ -14,6 +14,7 @@ export const getUserMap = async (rawIdList: number[], chatId: number) => {
   const notFoundedIdList = idList.filter((x) => !userMap.has(x));
 
   for(const id of notFoundedIdList){
+    try {
     const { user } = await bot.telegram.getChatMember(chatId, id);
 
     const name = user.first_name || user.last_name || user.username || 'Анонимус';
@@ -24,6 +25,15 @@ export const getUserMap = async (rawIdList: number[], chatId: number) => {
     });
 
     userMap.set(id, createdUser);
+    } catch (e) {
+      console.error(e);
+      const createdUser = await User.create({
+        userId: id,
+        name: 'Анонимус',
+      });
+  
+      userMap.set(id, createdUser);
+    }
   }
 
   return userMap;

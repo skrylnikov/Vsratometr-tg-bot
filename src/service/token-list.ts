@@ -47,6 +47,8 @@ const rawPlusList: ITokenConfig[] = [
   { token: 'пиздато'},
   { token: 'ахуенно'},
   { token: 'ахуено'},
+  { token: 'ахуена'},
+  { token: 'ахуенна'},
   { token: 'плюс'},
   { token: 'хорошо'},
   { token: 'сыр'},
@@ -72,7 +74,18 @@ const rawPlusList: ITokenConfig[] = [
   { token: 'найс'},
   { token: 'пожалуйста'},
   { token: 'кек'},
-
+  { token: 'лол'},
+  { token: 'top'},
+  { token: 'топ'},
+  { token: 'nice'},
+  { token: 'cool'},
+  { token: 'класека'},
+  { token: 'классека'},
+  { token: 'класика'},
+  { token: 'классика'},
+  { token: 'золото'},
+  { token: 'платина'},
+  
 ];
 
 const rawMinusList: ITokenConfig[] = [

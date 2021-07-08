@@ -51,7 +51,7 @@ export const processMessage = async (ctx: Context) => {
   const messageId = ctx.message.reply_to_message?.message_id;
   const objectId = ctx.message.reply_to_message?.from?.id;
 
-  if (!text) {
+  if (!text || ! ctx.message.reply_to_message) {
     return;
   }
 
@@ -82,7 +82,7 @@ export const processMessage = async (ctx: Context) => {
         transaction,
       });
 
-      await replyPost.update({ value: replyPost.value + 1 }, { transaction });
+      await replyPost.increment('value', { transaction });
 
       await transaction.commit();
     } catch (e) {
@@ -175,7 +175,7 @@ export const processMessage = async (ctx: Context) => {
             minus: 0,
             url,
             created: new Date(),
-            type: getMessageType(ctx.message.reply_to_message as any),
+            type: getMessageType(ctx.message.reply_to_message),
           },
           transaction,
         })
@@ -189,7 +189,7 @@ export const processMessage = async (ctx: Context) => {
 
       const postValue = post.plus + 1;
 
-      await post.update({ plus: postValue }, { transaction });
+      await post.update({ plus: postValue, type: getMessageType(ctx.message.reply_to_message) }, { transaction });
 
       await transaction.commit();
 
@@ -233,7 +233,7 @@ export const processMessage = async (ctx: Context) => {
             minus: 0,
             url,
             created: new Date(),
-            type: getMessageType(ctx.message.reply_to_message as any),
+            type: getMessageType(ctx.message.reply_to_message),
           },
           transaction,
         })
@@ -247,7 +247,7 @@ export const processMessage = async (ctx: Context) => {
 
       const postValue = post.minus + 1;
 
-      await post.update({ minus: postValue }, { transaction });
+      await post.update({ minus: postValue, type: getMessageType(ctx.message.reply_to_message) }, { transaction });
 
       await transaction.commit();
 
@@ -303,7 +303,7 @@ export const processMessage = async (ctx: Context) => {
             minus: 0,
             url,
             created: new Date(),
-            type: getMessageType(ctx.message.reply_to_message as any),
+            type: getMessageType(ctx.message.reply_to_message),
           },
           transaction,
         })
@@ -322,7 +322,7 @@ export const processMessage = async (ctx: Context) => {
       const postPlusValue = post.plus + 1;
       const postMinusValue = post.minus + 1;
 
-      await post.update({ plus: postPlusValue, minus: postMinusValue }, { transaction });
+      await post.update({ plus: postPlusValue, minus: postMinusValue, type: getMessageType(ctx.message.reply_to_message) }, { transaction });
 
       await transaction.commit();
 
