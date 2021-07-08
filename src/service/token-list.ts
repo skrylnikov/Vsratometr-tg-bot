@@ -71,7 +71,7 @@ const rawPlusList: ITokenConfig[] = [
   { token: 'благодарю'},
   { token: 'найс'},
   { token: 'пожалуйста'},
-  { token: 'не за что'},
+  { token: 'кек'},
 
 ];
 
