@@ -1,10 +1,5 @@
 import { Umzug, SequelizeStorage } from 'umzug';
-import { Sequelize } from 'sequelize';
-
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: './data/db.sqlite',
-});
+import { sequelize } from './models/connection';
 
 export const migrator = new Umzug({
   migrations: {

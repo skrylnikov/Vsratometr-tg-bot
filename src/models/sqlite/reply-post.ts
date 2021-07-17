@@ -25,19 +25,19 @@ export class ReplyPost extends Model<ReplyPostAttributes, ReplyPostAttributes> {
 ReplyPost.init(
   {
     userId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       field: 'user_id',
     },
     chatId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       field: 'chat_id',
     },
     messageId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       field: 'message_id',

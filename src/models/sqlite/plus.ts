@@ -1,31 +1,31 @@
-import { Model, DataTypes } from "sequelize";
+import { Sequelize, Model, DataTypes } from "sequelize";
 
 import { sequelize } from './connection';
 
-interface MinusAttributes {
+interface PlusAttributes {
   userId: number;
   chatId: number;
   name: string | null;
   value: number;
 }
 
-export class Minus extends Model<MinusAttributes, MinusAttributes> {
+export class Plus extends Model<PlusAttributes, PlusAttributes> {
   public userId!: number;
   public chatId!: number;
   public name!: string;
   public value!: number;
 }
 
-Minus.init(
+Plus.init(
   {
     userId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       field: 'user_id',
     },
     chatId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       field: 'chat_id',
@@ -40,7 +40,7 @@ Minus.init(
     },
   },
   {
-    tableName: "minus",
+    tableName: "plus",
     sequelize,
   }
 );

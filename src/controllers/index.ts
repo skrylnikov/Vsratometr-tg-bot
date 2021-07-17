@@ -7,3 +7,4 @@ export * from './post-stats';
 export * from './post-stats-all';
 export * from './reply-stats';
 export * from './reply-stats-all';
+export * from './migrate';

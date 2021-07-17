@@ -19,13 +19,13 @@ export class Minus extends Model<MinusAttributes, MinusAttributes> {
 Minus.init(
   {
     userId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       field: 'user_id',
     },
     chatId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       field: 'chat_id',
