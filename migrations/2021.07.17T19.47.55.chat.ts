@@ -4,7 +4,7 @@ import { Migration } from '../src/migrate';
 export const up: Migration = async ({ context: sequelize }) => {
   await sequelize.getQueryInterface().createTable('chat', {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
     },

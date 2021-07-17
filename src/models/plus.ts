@@ -19,13 +19,13 @@ export class Plus extends Model<PlusAttributes, PlusAttributes> {
 Plus.init(
   {
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'user_id',
     },
     chatId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'chat_id',

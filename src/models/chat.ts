@@ -2,20 +2,20 @@ import { Model, DataTypes } from "sequelize";
 
 import { sequelize } from './connection';
 
-export interface PostAttributes {
+export interface ChatAttributes {
   id: number;
   locale: string;
 }
 
-export class Post extends Model<PostAttributes, PostAttributes> {
+export class Chat extends Model<ChatAttributes, ChatAttributes> {
   public id!: number;
   public locale!: string;
 }
 
-Post.init(
+Chat.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
     },

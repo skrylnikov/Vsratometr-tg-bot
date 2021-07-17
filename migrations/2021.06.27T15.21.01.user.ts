@@ -4,7 +4,7 @@ import { Migration } from '../src/migrate';
 export const up: Migration = async ({ context: sequelize }) => {
   await sequelize.getQueryInterface().createTable('user', {
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'user_id',

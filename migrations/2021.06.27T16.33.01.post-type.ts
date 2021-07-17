@@ -3,12 +3,12 @@ import { Migration } from '../src/migrate';
 
 export const up: Migration = async ({ context: sequelize }) => {
   await sequelize.getQueryInterface().addColumn('post', 'type', {
-    type: DataTypes.STRING(127),
+    type: DataTypes.STRING(126),
     allowNull: false,
     defaultValue: '',
   });
   await sequelize.getQueryInterface().addColumn('reply_post', 'type', {
-    type: DataTypes.STRING(127),
+    type: DataTypes.STRING(126),
     allowNull: false,
     defaultValue: '',
   });

@@ -4,13 +4,13 @@ import { Migration } from '../src/migrate';
 export const up: Migration = async ({ context: sequelize }) => {
   await sequelize.getQueryInterface().createTable('plus', {
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'user_id',
     },
     chatId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'chat_id',
@@ -27,13 +27,13 @@ export const up: Migration = async ({ context: sequelize }) => {
 
   await sequelize.getQueryInterface().createTable('minus', {
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'user_id',
     },
     chatId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'chat_id',
@@ -50,19 +50,19 @@ export const up: Migration = async ({ context: sequelize }) => {
 
   await sequelize.getQueryInterface().createTable('post', {
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'user_id',
     },
     chatId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'chat_id',
     },
     messageId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'message_id',

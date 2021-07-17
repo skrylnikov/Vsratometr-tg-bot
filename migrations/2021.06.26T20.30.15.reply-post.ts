@@ -4,19 +4,19 @@ import { Migration } from '../src/migrate';
 export const up: Migration = async ({ context: sequelize }) => {
   await sequelize.getQueryInterface().createTable('reply_post', {
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'user_id',
     },
     chatId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'chat_id',
     },
     messageId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'message_id',

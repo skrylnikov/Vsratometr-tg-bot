@@ -15,7 +15,7 @@ export class User extends Model<UserAttributes, UserAttributes> {
 User.init(
   {
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       field: 'user_id',
