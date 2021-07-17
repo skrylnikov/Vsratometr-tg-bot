@@ -1,7 +1,7 @@
 import { Context } from 'telegraf';
 
 import { Action, getAction, getMessageType } from '../service';
-import { Minus, Plus, Post, ReplyPost, User, sequelize } from '../models';
+import { Minus, Plus, Post, ReplyPost, User, Chat, sequelize } from '../models';
 
 
 const cooldownSet = new Set<string>();
@@ -14,7 +14,7 @@ export const processMessage = async (ctx: Context) => {
   const subjectId = ctx.message.from?.id;
   const from = ctx.message.from;
 
-  if(from && !from.is_bot){
+  if(chatId && from && !from.is_bot){
     const transaction = await sequelize.transaction();
 
     try {
@@ -33,6 +33,17 @@ export const processMessage = async (ctx: Context) => {
       if(user.name !== name){
         await user.update({ name }, { transaction });
       }
+
+      await Chat.findOrCreate({
+        where: {
+          id: chatId,
+        },
+        defaults: {
+          id: chatId,
+          locale: 'ru',
+        },
+        transaction,
+      })
 
       await transaction.commit();
     } catch (e) {
