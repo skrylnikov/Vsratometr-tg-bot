@@ -39,7 +39,7 @@ export const addToken = async (ctx: Context) => {
   try {
 
   const [token] = await Token.findOrCreate({
-    where: {token: tokenStr},
+    where: {token: tokenStr, type},
     defaults: {
       token: tokenStr,
       repeat: 1,
@@ -96,7 +96,7 @@ export const removeToken = async (ctx: Context) => {
   try {
 
   const token = await Token.findOne({
-    where: {token: tokenStr},
+    where: {token: tokenStr, type},
     transaction,
   });
 
