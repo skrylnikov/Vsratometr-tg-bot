@@ -22,6 +22,11 @@ export const addToken = async (ctx: Context) => {
 
   const [_, typeStr, ...tokenList] = tokenize(text);
 
+  if(typeStr !== '+' && typeStr !== '-' && typeStr !== '+-'){
+    ctx.reply(`Формат добавления токена:\n/add_token + plus\n/add_token - minus\n/add_token +- plus minus`);
+    return;
+  }
+
   const tokenStr = tokenList.join(' ');
   const type = typeStr === '+' ? 'plus' : typeStr === '-' ? 'minus' : 'plusAndMinus';
 
