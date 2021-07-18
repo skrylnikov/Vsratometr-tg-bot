@@ -4,3 +4,4 @@ export * from './message-type';
 export * from './value-to-medal';
 export * from './post-stats';
 export * from './reply-stats';
+export * from './get-token-config';

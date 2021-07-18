@@ -1,5 +1,5 @@
-import { getFirstToken } from './tokenize';
-import { plusAndMinusList, plusList, minusList } from './token-list';
+import { tokenize } from './tokenize';
+import { ITokenConfig } from './get-token-config';
 
 export enum Action {
   none,
@@ -16,27 +16,36 @@ const randomRevertAction = (rate?: number) => {
   return random <= (0.01 * rate);
 };
 
-export const getAction = (text: string): Action => {
-  const token = getFirstToken(text);
-  const result = token.map((token) => {
-    const plus = plusList.find((x) => token === x.token);
-    const minus = minusList.find((x) => token === x.token);
-
-    if(plusAndMinusList.some((x) => token === x.token)){
-      return Action.plusAndMinus;
+const compareToken = (tokenizedText: string[], token: string[])=> {
+  for(let i = 0; i< token.length; i++){
+    if(token[i] !== tokenizedText[i]){
+      return false;
     }
+  }
+  return true;
+}
 
-    if(plus){
-      return randomRevertAction(plus.randomRevertRate) ? Action.minus : Action.plus;
-    }
+export const getAction = (config: ITokenConfig, text: string): Action => {
+  const tokenizedText = tokenize(text);
 
-    if(minus){
-      return randomRevertAction(minus.randomRevertRate) ? Action.plus : Action.minus;
-    }
+  if(config.plusAndMinus.find(({token}) => compareToken(tokenizedText, token))){
+    return Action.plusAndMinus;
+  }
 
-    return Action.none;
-  });
+  const plus = config.plus.find(({token}) => compareToken(tokenizedText, token));
 
-  return result.isNone() ? Action.none : result.value;
+  if(plus){
+    return randomRevertAction(plus.randomRevertRate) ? Action.minus : Action.plus;
+  }
+
+
+  const minus = config.minus.find(({token}) => compareToken(tokenizedText, token));
+
+  if(minus){
+    return randomRevertAction(minus.randomRevertRate) ? Action.plus : Action.minus;
+  }
+
+  return Action.none;
+
 }
 

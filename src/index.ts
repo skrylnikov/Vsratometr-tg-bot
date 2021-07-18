@@ -1,6 +1,22 @@
 
 import { bot } from './bot';
-import { start, processMessage, stats, postStats, postStatsAll, replyStats, replyStatsAll, migrate, anal } from './controllers';
+import {
+  start,
+  processMessage,
+  stats,
+  postStats,
+  postStatsAll,
+  replyStats,
+  replyStatsAll,
+  migrate,
+  anal,
+  intellectualsSetOn,
+  intellectualsSetOff,
+  randomEmojiSetOn,
+  randomEmojiSetOff,
+  addToken,
+  removeToken
+} from './controllers';
 
 
 bot.start(start);
@@ -13,6 +29,18 @@ bot.command('/reply_stats_all', replyStatsAll);
 
 bot.command('/migrate', migrate);
 bot.command('/anal', anal);
+
+
+bot.command('/intellectuals_set_on', intellectualsSetOn);
+bot.command('/intellectuals_set_off', intellectualsSetOff);
+
+bot.command('/random_emoji_set_on', randomEmojiSetOn);
+bot.command('/random_emoji_set_off', randomEmojiSetOff);
+
+
+bot.command('/add_token', addToken);
+bot.command('/remove_token', removeToken);
+
 
 bot.on('message', processMessage);
 bot.on('sticker', processMessage);

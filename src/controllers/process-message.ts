@@ -1,6 +1,6 @@
 import { Context } from 'telegraf';
 
-import { Action, getAction, getMessageType } from '../service';
+import { Action, getAction, getMessageType, getTokenConfig } from '../service';
 import { Minus, Plus, Post, ReplyPost, User, Chat, sequelize } from '../models';
 
 
@@ -34,23 +34,19 @@ export const processMessage = async (ctx: Context) => {
         await user.update({ name }, { transaction });
       }
 
-      await Chat.findOrCreate({
-        where: {
-          id: chatId,
-        },
-        defaults: {
-          id: chatId,
-          locale: 'ru',
-        },
-        transaction,
-      })
-
       await transaction.commit();
     } catch (e) {
       console.error(e);
       await transaction.rollback();
     }
   }
+
+  if(!chatId){
+    return;
+  }
+  console.time('find token');
+  const tokenConfig = await getTokenConfig(chatId);
+  console.timeEnd('find token');
 
 
   if (!('reply_to_message' in ctx.message)) {
@@ -103,7 +99,7 @@ export const processMessage = async (ctx: Context) => {
   }
 
 
-  const action = getAction(text);
+  const action = getAction(tokenConfig, text);
 
   if (action === Action.none) {
     return;
