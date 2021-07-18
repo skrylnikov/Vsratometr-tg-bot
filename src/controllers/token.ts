@@ -31,7 +31,7 @@ export const addToken = async (ctx: Context) => {
   const type = typeStr === '+' ? 'plus' : typeStr === '-' ? 'minus' : 'plusAndMinus';
 
   if(tokenList.length === 0){
-    ctx.reply(`Формат добавления токена:\n/add_token + plus`);
+    ctx.reply(`Формат добавления токена:\n/add_token + plus\n/add_token - minus\n/add_token +- plus minus`);
     return;
   }
 
@@ -79,28 +79,32 @@ export const removeToken = async (ctx: Context) => {
   
   const [_, typeStr, ...tokenList] = tokenize(text);
 
+  if(typeStr !== '+' && typeStr !== '-' && typeStr !== '+-'){
+    ctx.reply(`Формат удаления токена:\n/remove_token + plus\n/remove_token - minus\n/remove_token +- plus minus`);
+    return;
+  }
+
   const tokenStr = tokenList.join(' ');
   const type = typeStr === '+' ? 'plus' : typeStr === '-' ? 'minus' : 'plusAndMinus';
 
   if(tokenList.length === 0){
-    ctx.reply(`Формат добавления токена:\n/add_token + plus`);
+    ctx.reply(`Формат удаления токена:\n/remove_token + plus\n/remove_token - minus\n/remove_token +- plus minus`);
     return;
   }
 
   const transaction = await sequelize.transaction();
   try {
 
-  const [token] = await Token.findOrCreate({
+  const token = await Token.findOne({
     where: {token: tokenStr},
-    defaults: {
-      token: tokenStr,
-      repeat: 1,
-      randomRevertRate: 0,
-      type,
-    },
     transaction,
   });
-  
+
+  if(!token){
+    ctx.reply(`Токен "${tokenStr}" не найден`);
+    return
+  }
+
   await TokenToChat.destroy({
     where: { chatId, tokenId: token.id},
     transaction,
