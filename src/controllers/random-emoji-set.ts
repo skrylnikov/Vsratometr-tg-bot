@@ -18,6 +18,11 @@ export const randomEmojiSetOn = async (ctx: Context) => {
 
   const tokenList = await Token.findAll({where: {tokenSet: 'random_emoji'}});
 
+  await TokenToChat.destroy({where: {
+    chatId,
+    tokenId: tokenList.map((x) => x.id),
+  }});
+
   await TokenToChat.bulkCreate(tokenList.map((token) =>({chatId, tokenId: token.id})));
 
   ctx.reply(`Набор токенов с рандомными emoji включён \n${tokenList.map((x) => x.token).join(' ')}`);

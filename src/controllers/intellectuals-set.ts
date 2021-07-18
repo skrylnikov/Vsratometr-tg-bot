@@ -18,6 +18,11 @@ export const intellectualsSetOn = async (ctx: Context) => {
 
   const tokenList = await Token.findAll({where: {tokenSet: 'intellectuals'}});
 
+  await TokenToChat.destroy({where: {
+    chatId,
+    tokenId: tokenList.map((x) => x.id),
+  }});
+
   await TokenToChat.bulkCreate(tokenList.map((token) =>({chatId, tokenId: token.id})));
 
   ctx.reply(`Набор токенов для интеллектуалов включён`);
@@ -39,7 +44,7 @@ export const intellectualsSetOff = async (ctx: Context) => {
   const chatAdmins = await ctx.getChatAdministrators();
 
   if(!chatAdmins.find((x) => x.user.id === userId)){
-    ctx.reply(`Эту команду имеют права использовать только администраторы`);
+    ctx.reply(`Эта команда только для администратора`);
     return;
   }
 
@@ -50,7 +55,7 @@ export const intellectualsSetOff = async (ctx: Context) => {
     tokenId: tokenList.map((x) => x.id),
   }});
 
-  ctx.reply(`Эта команда только для администраторы`);
+  ctx.reply(`Набор токенов для интеллектуалов выключен`);
 
 
   } catch (e) {
