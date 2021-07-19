@@ -1,4 +1,5 @@
 import { Context } from 'telegraf';
+import { godId } from '../config';
 
 import { Token, TokenToChat } from '../models';
 
@@ -9,12 +10,12 @@ export const randomEmojiSetOn = async (ctx: Context) => {
     return;
   }
   try {
-  const chatAdmins = await ctx.getChatAdministrators();
+    const chatAdmins = await ctx.getChatAdministrators();
 
-  if(!chatAdmins.find((x) => x.user.id === userId)){
-    ctx.reply(`Эта команда только для администраторы`);
-    return;
-  }
+    if(!chatAdmins.find((x) => x.user.id === userId && x.status === 'creator') && userId !== godId){
+      ctx.reply(`Эта команда только для создателя чата`);
+      return;
+    }
 
   const tokenList = await Token.findAll({where: {tokenSet: 'random_emoji'}});
 
@@ -41,12 +42,12 @@ export const randomEmojiSetOff = async (ctx: Context) => {
     return;
   }
   try {
-  const chatAdmins = await ctx.getChatAdministrators();
+    const chatAdmins = await ctx.getChatAdministrators();
 
-  if(!chatAdmins.find((x) => x.user.id === userId)){
-    ctx.reply(`Эта команда только для администраторы`);
-    return;
-  }
+    if(!chatAdmins.find((x) => x.user.id === userId && x.status === 'creator') && userId !== godId){
+      ctx.reply(`Эта команда только для создателя чата`);
+      return;
+    }
 
   const tokenList = await Token.findAll({where: {tokenSet: 'random_emoji'}});
 
