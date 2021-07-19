@@ -21,7 +21,7 @@ export const tokenList = async (ctx: Context) => {
   ctx.reply(`Список пользовательских токенов:\n${
     groupedTokenList.map((tokenList) => 
       `${tokenList[0].type === 'plus' ? '+' : tokenList[0].type === 'minus' ? '-' : '+-'}\n${
-        tokenList.map((x) => x.token)
+        tokenList.map((x) => x.token).join('\n')
       }\n`
     ).join('\n')
   }`);
