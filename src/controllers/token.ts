@@ -22,7 +22,7 @@ export const tokenList = async (ctx: Context) => {
     groupedTokenList.map((tokenList) => 
       `${tokenList[0].type === 'plus' ? '+' : tokenList[0].type === 'minus' ? '-' : '+-'}\n${
         tokenList.map((x) => x.token)
-      }`
+      }\n`
     ).join('\n')
   }`);
 
