@@ -9,7 +9,7 @@ export const tokenList = async (ctx: Context) => {
 
   const tokenToChatList = await TokenToChat.findAll({where: {chatId}});
 
-  const tokenList = await Token.findAll({where: { token: tokenToChatList.map((x) => x.tokenId), tokenSet: null }});
+  const tokenList = await Token.findAll({where: { id: tokenToChatList.map((x) => x.tokenId), tokenSet: null }});
 
   if(tokenList.length === 0){
     ctx.reply(`В чате нет пользовательских токенов`);
