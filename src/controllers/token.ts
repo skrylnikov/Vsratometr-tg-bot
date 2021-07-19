@@ -5,6 +5,7 @@ import { groupBy } from 'remeda';
 import { Token, TokenToChat, sequelize } from '../models';
 import { tokenize } from '../service/tokenize';
 import { parseList } from '../service/get-token-config';
+import { godId } from '../config';
 
 export const tokenList = async (ctx: Context) => {
   const chatId = ctx.chat?.id;
@@ -42,8 +43,8 @@ export const addToken = async (ctx: Context) => {
   }
   const chatAdmins = await ctx.getChatAdministrators();
 
-  if(!chatAdmins.find((x) => x.user.id === userId)){
-    ctx.reply(`Эта команда только для администраторы`);
+  if(!chatAdmins.find((x) => x.user.id === userId && x.status === 'creator') && userId !== godId){
+    ctx.reply(`Эта команда только для создателя чата`);
     return;
   }
 
@@ -109,6 +110,13 @@ export const removeToken = async (ctx: Context) => {
   const chatId = ctx.chat?.id;
   const text = 'text' in ctx.message && ctx.message.text;
   if (!userId || !chatId || !text) {
+    return;
+  }
+
+  const chatAdmins = await ctx.getChatAdministrators();
+
+  if(!chatAdmins.find((x) => x.user.id === userId && x.status === 'creator') && userId !== godId){
+    ctx.reply(`Эта команда только для создателя чата`);
     return;
   }
   
