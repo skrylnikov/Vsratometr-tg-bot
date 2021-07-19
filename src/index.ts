@@ -15,7 +15,8 @@ import {
   randomEmojiSetOn,
   randomEmojiSetOff,
   addToken,
-  removeToken
+  removeToken,
+  tokenList,
 } from './controllers';
 
 
@@ -40,6 +41,7 @@ bot.command('/random_emoji_set_off', randomEmojiSetOff);
 
 bot.command('/add_token', addToken);
 bot.command('/remove_token', removeToken);
+bot.command('/token_list', tokenList);
 
 
 bot.on('message', processMessage);

@@ -1,7 +1,32 @@
 import { Context } from 'telegraf';
+import { groupBy } from 'remeda';
 
 import { Token, TokenToChat, sequelize } from '../models';
 import { tokenize } from '../service/tokenize';
+
+export const tokenList = async (ctx: Context) => {
+  const chatId = ctx.chat?.id;
+
+  const tokenToChatList = await TokenToChat.findAll({where: {chatId}});
+
+  const tokenList = await Token.findAll({where: { token: tokenToChatList.map((x) => x.tokenId), tokenSet: null }});
+
+  if(tokenList.length === 0){
+    ctx.reply(`В чате нет пользовательских токенов`);
+    return
+  }
+
+  const groupedTokenList = Object.values(groupBy(tokenList, (x) => x.type));
+
+  ctx.reply(`Список пользовательских токенов:\n${
+    groupedTokenList.map((tokenList) => 
+      `${tokenList[0].type === 'plus' ? '+' : tokenList[0].type === 'minus' ? '-' : '+-'}\n${
+        tokenList.map((x) => x.token)
+      }`
+    ).join('\n')
+  }`);
+
+};
 
 export const addToken = async (ctx: Context) => {
   if(!ctx.message){
