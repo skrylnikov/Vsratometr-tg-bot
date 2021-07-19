@@ -13,7 +13,7 @@ export interface ITokenConfig{
   plusAndMinus: IToken[];
 }
 
-const parseList = (list: TokenAttributes[]) => list.map(({token, repeat, randomRevertRate}) => {
+export const parseList = (list: TokenAttributes[]) => list.map(({token, repeat, randomRevertRate}) => {
   const parsedToken = tokenize(token);
   if (!repeat) {
     return {token: parsedToken, randomRevertRate} as IToken;

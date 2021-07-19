@@ -1,8 +1,10 @@
+import { Op } from 'sequelize';
 import { Context } from 'telegraf';
 import { groupBy } from 'remeda';
 
 import { Token, TokenToChat, sequelize } from '../models';
 import { tokenize } from '../service/tokenize';
+import { parseList } from '../service/get-token-config';
 
 export const tokenList = async (ctx: Context) => {
   const chatId = ctx.chat?.id;
@@ -60,6 +62,14 @@ export const addToken = async (ctx: Context) => {
     return;
   }
 
+  const tokenInSet = await Token.findAll({where: {tokenSet:{[Op.not]: null}}});
+  const parsedTokenInSet = parseList(tokenInSet).map((x) => x.token.join(' '));
+
+  if(parsedTokenInSet.includes(tokenStr)){
+    ctx.reply(`Токен "${tokenStr}" невозожно включить`);
+    return;
+  }
+
   const transaction = await sequelize.transaction();
   try {
 
@@ -114,6 +124,14 @@ export const removeToken = async (ctx: Context) => {
 
   if(tokenList.length === 0){
     ctx.reply(`Формат удаления токена:\n/remove_token + plus\n/remove_token - minus\n/remove_token +- plus minus`);
+    return;
+  }
+
+  const tokenInSet = await Token.findAll({where: {tokenSet:{[Op.not]: null}}});
+  const parsedTokenInSet = parseList(tokenInSet).map((x) => x.token.join(' '));
+
+  if(parsedTokenInSet.includes(tokenStr)){
+    ctx.reply(`Токен "${tokenStr}" невозожно выключить`);
     return;
   }
 
