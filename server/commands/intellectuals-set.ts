@@ -3,6 +3,8 @@ import { godId } from '../config';
 
 import { Token, TokenToChat, Chat } from '../models';
 
+import { reloadChatLang } from '../services';
+
 export const intellectualsSetOn = async (ctx: Context) => {
   const userId = ctx.message?.from?.id;
   const chatId = ctx.chat?.id;
@@ -29,6 +31,8 @@ export const intellectualsSetOn = async (ctx: Context) => {
   const chat = await Chat.findOne({where: {id: chatId}});
 
   await chat?.update({locale: 'ru-int'});
+
+  reloadChatLang();
 
   ctx.reply(`Набор токенов для интеллектуалов включён`);
 
@@ -63,6 +67,8 @@ export const intellectualsSetOff = async (ctx: Context) => {
   const chat = await Chat.findOne({where: {id: chatId}});
 
   await chat?.update({locale: 'ru'});
+
+  reloadChatLang();
 
   ctx.reply(`Набор токенов для интеллектуалов выключен`);
 
