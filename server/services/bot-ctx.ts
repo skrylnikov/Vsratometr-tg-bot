@@ -14,5 +14,5 @@ export const ctxMiddleware = (ctx: Context<Update>, next: () => Promise<void>) =
     return next();
   }
   
-  botContext.run({chatId: ctx.chat.id}, next);
+  botContext.run({chatId: ctx.chat.id}, () => {next()});
 }
