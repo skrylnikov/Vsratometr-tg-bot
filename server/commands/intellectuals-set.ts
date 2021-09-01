@@ -28,7 +28,7 @@ export const intellectualsSetOn = async (ctx: Context) => {
 
   const chat = await Chat.findOne({where: {id: chatId}});
 
-  await chat?.update('locale', 'ru-int');
+  await chat?.update({locale: 'ru-int'});
 
   ctx.reply(`Набор токенов для интеллектуалов включён`);
 
@@ -62,7 +62,7 @@ export const intellectualsSetOff = async (ctx: Context) => {
 
   const chat = await Chat.findOne({where: {id: chatId}});
 
-  await chat?.update('locale', 'ru');
+  await chat?.update({locale: 'ru'});
 
   ctx.reply(`Набор токенов для интеллектуалов выключен`);
 
