@@ -15,17 +15,23 @@ export const reloadChatLang = async () =>{
     chatList.forEach((chat) => {
       chatLangMap.set(chat.id, chat.locale);
     })
-
+    console.log(chatLangMap);
+    
   } catch (e) {
     console.error(e);
     
   }
 }
 
+reloadChatLang();
+
 export const getLocale = (chatId: number) => chatLangMap.get(chatId) as ILangList || 'ru'
 
 export const l10n = (id: string, args?: Record<string, string>) =>{
   const ctx = botContext.getStore();
+  console.log(ctx);
+  console.log(chatLangMap.get(ctx?.chatId || 0));
+  
   const lang = chatLangMap.get(ctx?.chatId || 0)as ILangList || 'ru' ;
 
   return getMessage(lang, id, args);

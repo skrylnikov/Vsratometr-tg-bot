@@ -3,6 +3,8 @@ import { readFileSync } from 'fs';
 
 import { db } from '../config';
 
+require('pg').defaults.parseInt8 = true
+
 export const sequelize = new Sequelize({
   
   dialect: 'postgres',
