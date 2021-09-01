@@ -45,9 +45,7 @@ export const processMessage = async (ctx: Context) => {
   if(!chatId){
     return;
   }
-  console.time('find token');
   const tokenConfig = await getTokenConfig(chatId);
-  console.timeEnd('find token');
 
 
   if (!('reply_to_message' in ctx.message)) {
