@@ -2,6 +2,8 @@ import { Context } from 'telegraf';
 import { pipe, sort } from 'remeda';
 
 import { Minus, Plus } from '../models';
+import { l10n } from '../services';
+
 
 
 const convertLevel = (value: number) => {
@@ -48,6 +50,12 @@ export const stats = async (ctx: Context) => {
     (x) => x.join('\n'),
   );
 
-  ctx.reply('ТОП:\n' + top + '\n\nХУЕТОП:\n' + bottom);
+  if(top.length === 0 && bottom.length === 0){
+    return ctx.reply(l10n('bot-top-empty'));
+  }
+
+  ctx.reply(
+    (top.length > 0 ? l10n('bot-top') + ':\n' + top + '\n\n' : '') +
+    (bottom.length > 0 ? l10n('bot-bottom') + ':\n' + bottom : ''));
 
 }

@@ -1,6 +1,6 @@
 import { Context } from 'telegraf';
 
-import { getPostStats } from '../service';
+import { getPostStats } from '../services';
 
 export const postStats = async (ctx: Context) => {
   const chatId = ctx.chat?.id;

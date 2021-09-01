@@ -3,9 +3,11 @@ import { Op } from 'sequelize';
 import { subHours, format, getDay } from 'date-fns';
 
 import { ReplyPost } from '../models';
+
 import { convertMessageType } from './message-type';
 import { getUserMap } from './user';
 import { convertValueToMedal } from './value-to-medal';
+import { l10n } from './l10n';
 
 
 export const getReplyStats = async (chatId: number, lashHours?: number) => {
@@ -45,6 +47,9 @@ export const getReplyStats = async (chatId: number, lashHours?: number) => {
   );
 
 
-  return `Топ реплаев за ${lashHours ? `последнии ${lashHours} часов` : 'всё время'}:\n\n` +
-    (top.length > 0 ? top : 'Пусто :(\n');
+  if(top.length === 0){
+    return l10n('bot-top-empty');
+  }
+
+  return `Топ реплаев за ${lashHours ? `последнии ${lashHours} часов` : 'всё время'}:\n\n${top}`;
 }

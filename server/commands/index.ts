@@ -1,24 +1,21 @@
+import {start} from './start';
+import {processMessage} from './process-message';
+import {stats} from './stat';
+import {postStats} from './post-stats';
+import {postStatsAll} from './post-stats-all';
+import {replyStats} from './reply-stats';
+import {replyStatsAll} from './reply-stats-all';
+import {migrate} from './migrate';
+import {anal} from './anal';
+import {intellectualsSetOff, intellectualsSetOn} from './intellectuals-set';
+import {randomEmojiSetOff,  randomEmojiSetOn} from './random-emoji-set';
+import {tokenList, addToken, removeToken} from './token';
 
-import { bot } from './bot';
-import {
-  start,
-  processMessage,
-  stats,
-  postStats,
-  postStatsAll,
-  replyStats,
-  replyStatsAll,
-  migrate,
-  anal,
-  intellectualsSetOn,
-  intellectualsSetOff,
-  randomEmojiSetOn,
-  randomEmojiSetOff,
-  addToken,
-  removeToken,
-  tokenList,
-} from './controllers';
+import { ctxMiddleware } from '../services';
 
+import {bot} from '../bot';
+
+bot.use(ctxMiddleware);
 
 bot.start(start);
 
@@ -48,5 +45,3 @@ bot.on('message', processMessage);
 bot.on('sticker', processMessage);
 
 bot.catch((e) => { console.error(e) });
-
-bot.launch();

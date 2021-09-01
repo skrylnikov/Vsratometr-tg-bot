@@ -3,8 +3,8 @@ import { Context } from 'telegraf';
 import { groupBy } from 'remeda';
 
 import { Token, TokenToChat, sequelize } from '../models';
-import { tokenize } from '../service/tokenize';
-import { parseList } from '../service/get-token-config';
+import { tokenize } from '../services/tokenize';
+import { parseList, resetTokenConfigCache } from '../services/get-token-config';
 import { godId } from '../config';
 
 export const tokenList = async (ctx: Context) => {
@@ -93,6 +93,7 @@ export const addToken = async (ctx: Context) => {
 
   await transaction.commit();
   ctx.reply(`Токен "${tokenStr}" включён`);
+  resetTokenConfigCache();
 
 
   } catch (e) {
@@ -163,6 +164,7 @@ export const removeToken = async (ctx: Context) => {
 
   await transaction.commit();
   ctx.reply(`Токен "${tokenStr}" выключен`);
+  resetTokenConfigCache();
 
 
   } catch (e) {

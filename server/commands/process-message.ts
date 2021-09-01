@@ -1,7 +1,7 @@
 import { Context } from 'telegraf';
 
-import { Action, getAction, getMessageType, getTokenConfig } from '../service';
-import { Minus, Plus, Post, ReplyPost, User, Chat, sequelize } from '../models';
+import { Action, getAction, getMessageType, getTokenConfig, getLocale, l10n } from '../services';
+import { Minus, Plus, Post, ReplyPost, User, sequelize } from '../models';
 
 
 const cooldownSet = new Set<string>();
@@ -13,6 +13,7 @@ export const processMessage = async (ctx: Context) => {
   const chatId = ctx.chat?.id;
   const subjectId = ctx.message.from?.id;
   const from = ctx.message.from;
+  const locale = getLocale(chatId || 0);
 
   if(chatId && from && !from.is_bot){
     const transaction = await sequelize.transaction();
@@ -106,31 +107,31 @@ export const processMessage = async (ctx: Context) => {
   }
 
   if (ctx.message.reply_to_message?.from?.id === ctx.message.from.id) {
-    const url = await ctx.tg.getFileLink('CAACAgIAAxkBAAMoYDqZhNYMEOhZMgABZr5tG1bko4MUAAJ2AAMz-LcVOuDuXdTVMogeBA')
-
-    if (url?.href) {
-      ctx.replyWithSticker({ url: url.href }, { reply_to_message_id: ctx.message.message_id });
-    } else {
-      ctx.reply('Ну ты ещё сам себе отсосать бы попробовал. Долбоёб!', { reply_to_message_id: ctx.message.message_id });
+    if(locale === 'ru-int'){
+      const url = await ctx.tg.getFileLink('CAACAgIAAxkBAAMoYDqZhNYMEOhZMgABZr5tG1bko4MUAAJ2AAMz-LcVOuDuXdTVMogeBA')
+      
+      if (url?.href) {
+        ctx.replyWithSticker({ url: url.href }, { reply_to_message_id: ctx.message.message_id });
+      }
     }
     return;
   }
 
   if (ctx.message.reply_to_message?.from?.id === (await ctx.telegram.getMe()).id) {
-    ctx.reply('А ты случаем не ахуел меня оценивать??? Долбоёб!', { reply_to_message_id: ctx.message.message_id });
+    ctx.reply(l10n('bot-ban-me-rate'), { reply_to_message_id: ctx.message.message_id });
     return;
   }
 
   if(from.is_bot){
-    ctx.reply('Отстать от ботов, тупой мясной мешок!', { reply_to_message_id: ctx.message.message_id });
+    ctx.reply(l10n('bot-ban-bot-rate'), { reply_to_message_id: ctx.message.message_id });
     return;
   }
 
   console.log(ctx.message.reply_to_message);
 
 
-  const objectUserName = ctx.message.reply_to_message?.from?.username || 'Безымянный пидр';
-  const subjectUserName = ctx.message.from?.username || 'Безымянный пидр';
+  const objectUserName = ctx.message.reply_to_message?.from?.username || 'Анонимус';
+  const subjectUserName = ctx.message.from?.username || 'Анонимус';
 
   if (!chatId || !objectId || !subjectId || !messageId) {
     return;
@@ -139,10 +140,10 @@ export const processMessage = async (ctx: Context) => {
   const url = `https://t.me/c/${chatId.toString().slice(4)}/${messageId}`;
 
 
-  const cooldownKey = `${chatId}:${objectId}:${ctx.message.from.id}`;
+  const cooldownKey = `${chatId}:${ctx.message.reply_to_message.message_id}:${ctx.message.from.id}`;
 
   if (cooldownSet.has(cooldownKey)) {
-    ctx.reply('Иди в жопу', { reply_to_message_id: ctx.message.message_id });
+    ctx.reply(l10n('bot-ban-frequency'), { reply_to_message_id: ctx.message.message_id });
     return;
   } else {
     cooldownSet.add(cooldownKey);
@@ -192,7 +193,7 @@ export const processMessage = async (ctx: Context) => {
 
       await plus.update({ value }, { transaction });
 
-      ctx.reply(`Плюс к рейтингу ${objectUserName} (${value}) от ${subjectUserName}`);
+      ctx.reply(`${l10n('bot-plus-actin')} ${objectUserName} (${value}) от ${subjectUserName}`);
 
       const postValue = post.plus + 1;
 
@@ -250,7 +251,7 @@ export const processMessage = async (ctx: Context) => {
 
       await minus.update({ value }, { transaction });
 
-      ctx.reply(`Плюс к всратости ${objectUserName} (-${value}) от ${subjectUserName}`);
+      ctx.reply(`${l10n('bot-minus-action')} ${objectUserName} (-${value}) от ${subjectUserName}`);
 
       const postValue = post.minus + 1;
 
@@ -324,7 +325,7 @@ export const processMessage = async (ctx: Context) => {
         minus.update({ value: minusValue }, { transaction }),
       ]);
 
-      ctx.reply(`Плюс к рейтингу и всратости ${objectUserName} (+${plusValue};-${minusValue}) от ${subjectUserName}`);
+      ctx.reply(`${l10n('bot-plus-minus-action')} ${objectUserName} (+${plusValue};-${minusValue}) от ${subjectUserName}`);
 
       const postPlusValue = post.plus + 1;
       const postMinusValue = post.minus + 1;

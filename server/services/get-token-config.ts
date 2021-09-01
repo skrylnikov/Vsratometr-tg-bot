@@ -28,7 +28,17 @@ export const parseList = (list: TokenAttributes[]) => list.map(({token, repeat, 
   return resultArray;
 }).flat();
 
+const tokenConfigMap = new Map<number, ITokenConfig>();
+
+export const resetTokenConfigCache = () => {
+  tokenConfigMap.clear();
+}
+
 export const getTokenConfig = async (chatId: number): Promise<ITokenConfig> => {
+  if(tokenConfigMap.has(chatId)){
+    return tokenConfigMap.get(chatId)!;
+  }
+    
   const transaction = await sequelize.transaction();
 
   try {
@@ -59,11 +69,15 @@ export const getTokenConfig = async (chatId: number): Promise<ITokenConfig> => {
     
     await transaction.commit();
 
-    return {
+    const tokenConfig = {
       plus: parseList(tokenList.filter((x) => x.type === 'plus')),
       minus: parseList(tokenList.filter((x) => x.type === 'minus')),
       plusAndMinus: parseList(tokenList.filter((x) => x.type === 'plusAndMinus')),
-    }
+    };
+
+    tokenConfigMap.set(chatId, tokenConfig);
+
+    return tokenConfig;
   } catch (e) {
     await transaction.rollback();
     console.error(e);

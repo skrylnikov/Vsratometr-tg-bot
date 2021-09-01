@@ -5,3 +5,6 @@ export * from './value-to-medal';
 export * from './post-stats';
 export * from './reply-stats';
 export * from './get-token-config';
+export * from './bot-ctx';
+export * from './l10n';
+

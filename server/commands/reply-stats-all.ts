@@ -1,14 +1,14 @@
 import { Context } from 'telegraf';
 
-import { getPostStats } from '../service';
+import { getReplyStats } from '../services';
 
-export const postStatsAll = async (ctx: Context) => {
+export const replyStatsAll = async (ctx: Context) => {
   const chatId = ctx.chat?.id;
   if (!chatId) {
     return;
   }
 
-  const result = await getPostStats(chatId);
-
+  const result = await getReplyStats(chatId);
+  
   ctx.reply(result, {parse_mode: 'Markdown'});
 }

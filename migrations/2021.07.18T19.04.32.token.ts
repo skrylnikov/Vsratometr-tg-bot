@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import { Migration } from '../src/migrate';
+import { Migration } from '../scripts/migrate';
 
 export const up: Migration = async ({ context: sequelize }) => {
   await sequelize.getQueryInterface().createTable('token', {

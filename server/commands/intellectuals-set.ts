@@ -1,7 +1,7 @@
 import { Context } from 'telegraf';
 import { godId } from '../config';
 
-import { Token, TokenToChat } from '../models';
+import { Token, TokenToChat, Chat } from '../models';
 
 export const intellectualsSetOn = async (ctx: Context) => {
   const userId = ctx.message?.from?.id;
@@ -25,6 +25,10 @@ export const intellectualsSetOn = async (ctx: Context) => {
   }});
 
   await TokenToChat.bulkCreate(tokenList.map((token) =>({chatId, tokenId: token.id})));
+
+  const chat = await Chat.findOne({where: {id: chatId}});
+
+  await chat?.update('locale', 'ru-int');
 
   ctx.reply(`Набор токенов для интеллектуалов включён`);
 
@@ -55,6 +59,10 @@ export const intellectualsSetOff = async (ctx: Context) => {
     chatId,
     tokenId: tokenList.map((x) => x.id),
   }});
+
+  const chat = await Chat.findOne({where: {id: chatId}});
+
+  await chat?.update('locale', 'ru');
 
   ctx.reply(`Набор токенов для интеллектуалов выключен`);
 
