@@ -1,8 +1,9 @@
 import { readFileSync } from 'fs';
+import { resolve } from 'path';
 import { FluentBundle, FluentResource } from '@fluent/bundle';
 
 const createBundle = (lang: string) => {
-  const resource = new FluentResource(readFileSync(`./{lang}/bot.ftl`, {encoding: 'utf-8'}));
+  const resource = new FluentResource(readFileSync(resolve(__dirname, lang, 'bot.ftl'), {encoding: 'utf-8'}));
 
   const bundle = new FluentBundle(lang);
 
