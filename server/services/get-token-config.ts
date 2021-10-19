@@ -52,6 +52,7 @@ export const getTokenConfig = async (chatId: number): Promise<ITokenConfig> => {
         defaults: {
           id: chatId,
           locale: 'ru',
+          silent: false,
         },
         transaction,
       }),

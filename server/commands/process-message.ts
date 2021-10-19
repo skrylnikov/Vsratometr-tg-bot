@@ -1,7 +1,7 @@
 import { Context } from 'telegraf';
 
 import { Action, getAction, getMessageType, getTokenConfig, getLocale, l10n } from '../services';
-import { Minus, Plus, Post, ReplyPost, User, sequelize } from '../models';
+import { Minus, Plus, Post, ReplyPost, User, Chat, sequelize } from '../models';
 
 
 const cooldownSet = new Set<string>();
@@ -46,9 +46,10 @@ export const processMessage = async (ctx: Context) => {
     return;
   }
   const tokenConfig = await getTokenConfig(chatId);
+  const chat = await Chat.findOne({where: {id: chatId}});
 
 
-  if (!('reply_to_message' in ctx.message)) {
+  if (!('reply_to_message' in ctx.message) || !chat) {
     return;
   }
 
@@ -108,19 +109,19 @@ export const processMessage = async (ctx: Context) => {
     if(locale === 'ru-int'){
       const url = await ctx.tg.getFileLink('CAACAgIAAxkBAAMoYDqZhNYMEOhZMgABZr5tG1bko4MUAAJ2AAMz-LcVOuDuXdTVMogeBA')
       
-      if (url?.href) {
+      if (url?.href && !chat.silent) {
         ctx.replyWithSticker({ url: url.href }, { reply_to_message_id: ctx.message.message_id });
       }
     }
     return;
   }
 
-  if (ctx.message.reply_to_message?.from?.id === (await ctx.telegram.getMe()).id) {
+  if (ctx.message.reply_to_message?.from?.id === (await ctx.telegram.getMe()).id && !chat.silent) {
     ctx.reply(l10n('bot-ban-me-rate'), { reply_to_message_id: ctx.message.message_id });
     return;
   }
 
-  if(from.is_bot){
+  if(from.is_bot && !chat.silent){
     ctx.reply(l10n('bot-ban-bot-rate'), { reply_to_message_id: ctx.message.message_id });
     return;
   }
@@ -141,7 +142,9 @@ export const processMessage = async (ctx: Context) => {
   const cooldownKey = `${chatId}:${ctx.message.reply_to_message.message_id}:${ctx.message.from.id}`;
 
   if (cooldownSet.has(cooldownKey)) {
-    ctx.reply(l10n('bot-ban-frequency'), { reply_to_message_id: ctx.message.message_id });
+    if(!chat.silent){
+      ctx.reply(l10n('bot-ban-frequency'), { reply_to_message_id: ctx.message.message_id });
+    }
     return;
   } else {
     cooldownSet.add(cooldownKey);
@@ -191,7 +194,9 @@ export const processMessage = async (ctx: Context) => {
 
       await plus.update({ value }, { transaction });
 
-      ctx.reply(`${l10n('bot-plus-actin')} ${objectUserName} (${value}) от ${subjectUserName}`);
+      if(!chat.silent){
+        ctx.reply(`${l10n('bot-plus-actin')} ${objectUserName} (${value}) от ${subjectUserName}`);
+      }
 
       const postValue = post.plus + 1;
 
@@ -249,7 +254,9 @@ export const processMessage = async (ctx: Context) => {
 
       await minus.update({ value }, { transaction });
 
-      ctx.reply(`${l10n('bot-minus-action')} ${objectUserName} (-${value}) от ${subjectUserName}`);
+      if(!chat.silent){
+        ctx.reply(`${l10n('bot-minus-action')} ${objectUserName} (-${value}) от ${subjectUserName}`);
+      }
 
       const postValue = post.minus + 1;
 
@@ -323,7 +330,9 @@ export const processMessage = async (ctx: Context) => {
         minus.update({ value: minusValue }, { transaction }),
       ]);
 
-      ctx.reply(`${l10n('bot-plus-minus-action')} ${objectUserName} (+${plusValue};-${minusValue}) от ${subjectUserName}`);
+      if(!chat.silent){
+        ctx.reply(`${l10n('bot-plus-minus-action')} ${objectUserName} (+${plusValue};-${minusValue}) от ${subjectUserName}`);
+      }
 
       const postPlusValue = post.plus + 1;
       const postMinusValue = post.minus + 1;

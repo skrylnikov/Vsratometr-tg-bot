@@ -5,11 +5,13 @@ import { sequelize } from './connection';
 export interface ChatAttributes {
   id: number;
   locale: string;
+  silent: boolean;
 }
 
 export class Chat extends Model<ChatAttributes, ChatAttributes> {
   public id!: number;
   public locale!: string;
+  public silent!: boolean;
 }
 
 Chat.init(
@@ -21,6 +23,10 @@ Chat.init(
     },
     locale: {
       type: DataTypes.STRING(126),
+      allowNull: false,
+    },
+    silent: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
   },

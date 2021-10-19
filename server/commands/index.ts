@@ -10,6 +10,7 @@ import {anal} from './anal';
 import {intellectualsSetOff, intellectualsSetOn} from './intellectuals-set';
 import {randomEmojiSetOff,  randomEmojiSetOn} from './random-emoji-set';
 import {tokenList, addToken, removeToken} from './token';
+import { silentOn, silentOff } from './silent';
 
 import { ctxMiddleware } from '../services';
 
@@ -34,6 +35,9 @@ bot.command('/intellectuals_set_off', intellectualsSetOff);
 
 bot.command('/random_emoji_set_on', randomEmojiSetOn);
 bot.command('/random_emoji_set_off', randomEmojiSetOff);
+
+bot.command('/silent_on', silentOn);
+bot.command('/silent_off', silentOff);
 
 
 bot.command('/add_token', addToken);
