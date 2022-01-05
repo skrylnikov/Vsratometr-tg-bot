@@ -8,28 +8,28 @@
     "migrate": "ts-node-dev ./scripts/migrate.ts"
   },
   "dependencies": {
-    "@fluent/bundle": "^0.16.1",
+    "@fluent/bundle": "^0.17.1",
     "@sweet-monads/either": "^2.3.1",
     "@sweet-monads/maybe": "^2.3.1",
-    "date-fns": "^2.23.0",
+    "date-fns": "^2.28.0",
     "dotenv": "^10.0.0",
-    "koa": "^2.13.1",
+    "koa": "^2.13.4",
     "koa-logger": "^3.2.1",
-    "koa-router": "^10.0.0",
+    "koa-router": "^10.1.1",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
-    "remeda": "^0.0.30",
-    "sequelize": "^6.6.5",
-    "telegraf": "^4.4.1",
+    "remeda": "^0.0.32",
+    "sequelize": "^6.12.5",
+    "telegraf": "^4.5.2",
     "ts-node-dev": "^1.1.8",
-    "typegram": "^3.4.3",
-    "typescript": "^4.4.2",
-    "umzug": "beta"
+    "typegram": "^3.7.0",
+    "typescript": "^4.5.4",
+    "umzug": "3.0.0"
   },
   "devDependencies": {
     "@types/koa": "^2.13.4",
     "@types/koa-router": "^7.4.4",
     "@types/node": "^14.14.31",
-    "tsconfig-paths": "^3.10.1"
+    "tsconfig-paths": "^3.12.0"
   }
 }

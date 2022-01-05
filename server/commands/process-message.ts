@@ -6,6 +6,12 @@ import { Minus, Plus, Post, ReplyPost, User, Chat, sequelize } from '../models';
 
 const cooldownSet = new Set<string>();
 
+const clear = (ctx: Context, messageId: number) => {
+  setTimeout(() => {
+    ctx.deleteMessage(messageId).catch((e) => console.error(e));
+  }, 30000);
+}
+
 export const processMessage = async (ctx: Context) => {
   if (!ctx.message) {
     return;
@@ -15,7 +21,7 @@ export const processMessage = async (ctx: Context) => {
   const from = ctx.message.from;
   const locale = getLocale(chatId || 0);
 
-  if(chatId && from && !from.is_bot){
+  if (chatId && from && !from.is_bot) {
     const transaction = await sequelize.transaction();
 
     try {
@@ -31,7 +37,7 @@ export const processMessage = async (ctx: Context) => {
         },
         transaction,
       });
-      if(user.name !== name){
+      if (user.name !== name) {
         await user.update({ name }, { transaction });
       }
 
@@ -42,11 +48,11 @@ export const processMessage = async (ctx: Context) => {
     }
   }
 
-  if(!chatId){
+  if (!chatId) {
     return;
   }
   const tokenConfig = await getTokenConfig(chatId);
-  const chat = await Chat.findOne({where: {id: chatId}});
+  const chat = await Chat.findOne({ where: { id: chatId } });
 
 
   if (!('reply_to_message' in ctx.message) || !chat) {
@@ -58,19 +64,19 @@ export const processMessage = async (ctx: Context) => {
   const messageId = ctx.message.reply_to_message?.message_id;
   const objectId = ctx.message.reply_to_message?.from?.id;
 
-  if (!text || ! ctx.message.reply_to_message) {
+  if (!text || !ctx.message.reply_to_message) {
     return;
   }
 
 
-  if(ctx.message.reply_to_message && ctx.message.reply_to_message?.from?.id !== ctx.message.from.id && chatId && messageId && objectId){
+  if (ctx.message.reply_to_message && ctx.message.reply_to_message?.from?.id !== ctx.message.from.id && chatId && messageId && objectId) {
 
     const url = `https://t.me/c/${chatId.toString().slice(4)}/${messageId}`;
-    
+
     const transaction = await sequelize.transaction();
 
     try {
-      
+
       const [replyPost] = await ReplyPost.findOrCreate({
         where: {
           userId: objectId,
@@ -106,9 +112,9 @@ export const processMessage = async (ctx: Context) => {
   }
 
   if (ctx.message.reply_to_message?.from?.id === ctx.message.from.id) {
-    if(locale === 'ru-int'){
+    if (locale === 'ru-int') {
       const url = await ctx.tg.getFileLink('CAACAgIAAxkBAAMoYDqZhNYMEOhZMgABZr5tG1bko4MUAAJ2AAMz-LcVOuDuXdTVMogeBA')
-      
+
       if (url?.href && !chat.silent) {
         ctx.replyWithSticker({ url: url.href }, { reply_to_message_id: ctx.message.message_id });
       }
@@ -121,7 +127,7 @@ export const processMessage = async (ctx: Context) => {
     return;
   }
 
-  if(from.is_bot && !chat.silent){
+  if (from.is_bot && !chat.silent) {
     ctx.reply(l10n('bot-ban-bot-rate'), { reply_to_message_id: ctx.message.message_id });
     return;
   }
@@ -142,7 +148,7 @@ export const processMessage = async (ctx: Context) => {
   const cooldownKey = `${chatId}:${ctx.message.reply_to_message.message_id}:${ctx.message.from.id}`;
 
   if (cooldownSet.has(cooldownKey)) {
-    if(!chat.silent){
+    if (!chat.silent) {
       ctx.reply(l10n('bot-ban-frequency'), { reply_to_message_id: ctx.message.message_id });
     }
     return;
@@ -194,8 +200,9 @@ export const processMessage = async (ctx: Context) => {
 
       await plus.update({ value }, { transaction });
 
-      if(!chat.silent){
-        ctx.reply(`${l10n('bot-plus-actin')} ${objectUserName} (${value}) от ${subjectUserName}`);
+      if (!chat.silent) {
+        const result = await ctx.reply(`${l10n('bot-plus-actin')} ${objectUserName} (${value}) от ${subjectUserName}`);
+        clear(ctx, result.message_id);
       }
 
       const postValue = post.plus + 1;
@@ -254,8 +261,9 @@ export const processMessage = async (ctx: Context) => {
 
       await minus.update({ value }, { transaction });
 
-      if(!chat.silent){
-        ctx.reply(`${l10n('bot-minus-action')} ${objectUserName} (-${value}) от ${subjectUserName}`);
+      if (!chat.silent) {
+        const result = await ctx.reply(`${l10n('bot-minus-action')} ${objectUserName} (-${value}) от ${subjectUserName}`);
+        clear(ctx, result.message_id);
       }
 
       const postValue = post.minus + 1;
@@ -330,8 +338,9 @@ export const processMessage = async (ctx: Context) => {
         minus.update({ value: minusValue }, { transaction }),
       ]);
 
-      if(!chat.silent){
-        ctx.reply(`${l10n('bot-plus-minus-action')} ${objectUserName} (+${plusValue};-${minusValue}) от ${subjectUserName}`);
+      if (!chat.silent) {
+        const result = await ctx.reply(`${l10n('bot-plus-minus-action')} ${objectUserName} (+${plusValue};-${minusValue}) от ${subjectUserName}`);
+        clear(ctx, result.message_id);
       }
 
       const postPlusValue = post.plus + 1;
