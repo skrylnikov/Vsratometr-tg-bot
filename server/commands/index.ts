@@ -1,20 +1,21 @@
-import {start} from './start';
-import {processMessage} from './process-message';
-import {stats} from './stat';
-import {postStats} from './post-stats';
-import {postStatsAll} from './post-stats-all';
-import {replyStats} from './reply-stats';
-import {replyStatsAll} from './reply-stats-all';
-import {migrate} from './migrate';
-import {anal} from './anal';
-import {intellectualsSetOff, intellectualsSetOn} from './intellectuals-set';
-import {randomEmojiSetOff,  randomEmojiSetOn} from './random-emoji-set';
-import {tokenList, addToken, removeToken} from './token';
+import { start } from './start';
+import { processMessage } from './process-message';
+import { stats } from './stat';
+import { postStats } from './post-stats';
+import { postStatsAll } from './post-stats-all';
+import { replyStats } from './reply-stats';
+import { replyStatsAll } from './reply-stats-all';
+import { migrate } from './migrate';
+import { anal } from './anal';
+import { intellectualsSetOff, intellectualsSetOn } from './intellectuals-set';
+import { randomEmojiSetOff, randomEmojiSetOn } from './random-emoji-set';
+import { tokenList, addToken, removeToken } from './token';
 import { silentOn, silentOff } from './silent';
+import { spam } from './spam';
 
 import { ctxMiddleware } from '../services';
 
-import {bot} from '../bot';
+import { bot } from '../bot';
 
 bot.use(ctxMiddleware);
 
@@ -28,6 +29,7 @@ bot.command('/reply_stats_all', replyStatsAll);
 
 bot.command('/migrate', migrate);
 bot.command('/anal', anal);
+bot.command('/spam', spam);
 
 
 bot.command('/intellectuals_set_on', intellectualsSetOn);
