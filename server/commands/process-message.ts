@@ -9,7 +9,7 @@ const cooldownSet = new Set<string>();
 const clear = (ctx: Context, messageId: number) => {
   setTimeout(() => {
     ctx.deleteMessage(messageId).catch((e) => console.error(e));
-  }, 30000);
+  }, 10000);
 }
 
 export const processMessage = async (ctx: Context) => {
