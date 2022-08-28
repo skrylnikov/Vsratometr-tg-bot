@@ -6,7 +6,7 @@
   },
   "references": [
     {
-      "path": "../locales"
+      "path": "../i18n"
     }
   ]
 }

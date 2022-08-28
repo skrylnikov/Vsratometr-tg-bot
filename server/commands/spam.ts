@@ -1,7 +1,6 @@
 import { Context } from 'telegraf';
 
-import { Action, getAction, getMessageType, getTokenConfig, getLocale, l10n } from '../services';
-import { Minus, Plus, Post, ReplyPost, User, Chat, sequelize } from '../models';
+import { Chat } from '../models';
 import { godId } from '../config';
 
 

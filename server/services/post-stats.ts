@@ -1,12 +1,14 @@
 import { pipe, sort } from 'remeda'
 import { Op } from 'sequelize';
-import { subHours, format, getDay } from 'date-fns';
+import { subHours, format, differenceInCalendarDays } from 'date-fns';
+
+import { L } from '../../i18n/i18n-node';
 
 import { Post, PostAttributes } from '../models';
 import { convertMessageType } from './message-type';
 import { getUserMap } from './user';
 import { convertValueToMedal } from './value-to-medal';
-import { l10n } from './l10n';
+import { getLocale } from './l10n';
 
 
 export const getPostStats = async (chatId: number, lashHours?: number) => {
@@ -28,7 +30,7 @@ export const getPostStats = async (chatId: number, lashHours?: number) => {
     const user = userMap.get(post.userId);
 
     const date = post.created || new Date();
-    const dayDiff = getDay(new Date()) - getDay(date);
+    const dayDiff = differenceInCalendarDays(new Date(), date);
     const time = `${dayDiff === 2 ? 'позавчера ' : dayDiff === 1 ? 'вчера ' : ''}${format(date, dayDiff > 2 ? 'dd-MM в HH:mm' : 'в HH:mm')}`;
 
     const name = user?.name || 'Анонимус';
@@ -67,14 +69,16 @@ export const getPostStats = async (chatId: number, lashHours?: number) => {
     (x) => x.join('\n'),
   );
 
+  const locale = getLocale(chatId);
+
 
   if(superTop.length == 0 && top.length === 0 && bottom.length === 0){
-    return l10n('bot-top-empty');
+    return L[locale].bot.topEmpty();
   }
 
 
   return `Топ за ${lashHours ? `последнии ${lashHours} часов` : 'всё время'}:\n\n\n` +
-  (superTop.length > 0 ? l10n('bot-supertop') + ':\n' + superTop + '\n\n' : '') +
-  (top.length > 0 ? l10n('bot-top') + ':\n' + top + '\n\n' : '') +
-  (bottom.length > 0 ? l10n('bot-bottom') + ':\n' + bottom + '\n\n' : '');
+  (superTop.length > 0 ? L[locale].bot.supertop()+ ':\n' + superTop + '\n\n' : '') +
+  (top.length > 0 ? L[locale].bot.top() + ':\n' + top + '\n\n' : '') +
+  (bottom.length > 0 ? L[locale].bot.bottom() + ':\n' + bottom + '\n\n' : '');
 }

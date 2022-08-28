@@ -1,8 +1,10 @@
 import { Context } from 'telegraf';
 import { pipe, sort } from 'remeda';
 
+import { L } from '../../i18n/i18n-node';
+
 import { Minus, Plus } from '../models';
-import { l10n } from '../services';
+import { getLocale } from '../services';
 
 
 
@@ -34,6 +36,8 @@ export const stats = async (ctx: Context) => {
     }),
   ]);
 
+  const locale = getLocale(chatId);
+
   const top = pipe(
     plusList,
     sort((a, b) => b.value - a.value),
@@ -51,11 +55,11 @@ export const stats = async (ctx: Context) => {
   );
 
   if(top.length === 0 && bottom.length === 0){
-    return ctx.reply(l10n('bot-top-empty'));
+    return ctx.reply(L[locale].bot.topEmpty());
   }
 
   ctx.reply(
-    (top.length > 0 ? l10n('bot-top') + ':\n' + top + '\n\n' : '') +
-    (bottom.length > 0 ? l10n('bot-bottom') + ':\n' + bottom : ''));
+    (top.length > 0 ? L[locale].bot.top() + ':\n' + top + '\n\n' : '') +
+    (bottom.length > 0 ? L[locale].bot.bottom() + ':\n' + bottom : ''));
 
 }

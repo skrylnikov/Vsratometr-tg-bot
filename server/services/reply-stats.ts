@@ -1,13 +1,15 @@
 import { pipe, sort } from 'remeda'
 import { Op } from 'sequelize';
-import { subHours, format, getDay } from 'date-fns';
+import { subHours, format, differenceInCalendarDays } from 'date-fns';
+
+import { L } from '../../i18n/i18n-node';
 
 import { ReplyPost } from '../models';
 
 import { convertMessageType } from './message-type';
 import { getUserMap } from './user';
 import { convertValueToMedal } from './value-to-medal';
-import { l10n } from './l10n';
+import { getLocale } from './l10n';
 
 
 export const getReplyStats = async (chatId: number, lashHours?: number) => {
@@ -34,7 +36,7 @@ export const getReplyStats = async (chatId: number, lashHours?: number) => {
       const user = userMap.get(userId);
 
       const date = created || new Date();
-      const dayDiff = getDay(new Date()) - getDay(date);
+      const dayDiff = differenceInCalendarDays(new Date(), date);
       const time = `${dayDiff === 2 ? 'позавчера ' : dayDiff === 1 ? 'вчера ' : ''}${format(date, dayDiff > 2 ? 'dd-MM в HH:mm' : 'в HH:mm')}`;
 
       const name = user?.name || 'Анонимус';
@@ -48,7 +50,9 @@ export const getReplyStats = async (chatId: number, lashHours?: number) => {
 
 
   if(top.length === 0){
-    return l10n('bot-top-empty');
+    const locale = getLocale(chatId);
+
+    return L[locale].bot.topEmpty();
   }
 
   return `Топ реплаев за ${lashHours ? `последнии ${lashHours} часов` : 'всё время'}:\n\n${top}`;

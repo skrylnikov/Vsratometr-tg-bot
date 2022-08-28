@@ -1,6 +1,8 @@
 import { Context } from 'telegraf';
 
-import { Action, getAction, getMessageType, getTokenConfig, getLocale, l10n } from '../services';
+import { L } from '../../i18n/i18n-node';
+
+import { Action, getAction, getMessageType, getTokenConfig, getLocale } from '../services';
 import { Minus, Plus, Post, ReplyPost, User, Chat, sequelize } from '../models';
 
 
@@ -123,12 +125,12 @@ export const processMessage = async (ctx: Context) => {
   }
 
   if (ctx.message.reply_to_message?.from?.id === (await ctx.telegram.getMe()).id && !chat.silent) {
-    ctx.reply(l10n('bot-ban-me-rate'), { reply_to_message_id: ctx.message.message_id });
+    ctx.reply(L[locale].bot.banMeRate(), { reply_to_message_id: ctx.message.message_id });
     return;
   }
 
   if (from.is_bot && !chat.silent) {
-    ctx.reply(l10n('bot-ban-bot-rate'), { reply_to_message_id: ctx.message.message_id });
+    ctx.reply(L[locale].bot.banBotRate(), { reply_to_message_id: ctx.message.message_id });
     return;
   }
 
@@ -149,7 +151,7 @@ export const processMessage = async (ctx: Context) => {
 
   if (cooldownSet.has(cooldownKey)) {
     if (!chat.silent) {
-      ctx.reply(l10n('bot-ban-frequency'), { reply_to_message_id: ctx.message.message_id });
+      ctx.reply(L[locale].bot.banFrequency(), { reply_to_message_id: ctx.message.message_id });
     }
     return;
   } else {
@@ -201,7 +203,7 @@ export const processMessage = async (ctx: Context) => {
       await plus.update({ value }, { transaction });
 
       if (!chat.silent) {
-        const result = await ctx.reply(`${l10n('bot-plus-actin')} ${objectUserName} (${value}) от ${subjectUserName}`);
+        const result = await ctx.reply(`${L[locale].bot.plusActin()} ${objectUserName} (${value}) от ${subjectUserName}`);
         clear(ctx, result.message_id);
       }
 
@@ -262,7 +264,7 @@ export const processMessage = async (ctx: Context) => {
       await minus.update({ value }, { transaction });
 
       if (!chat.silent) {
-        const result = await ctx.reply(`${l10n('bot-minus-action')} ${objectUserName} (-${value}) от ${subjectUserName}`);
+        const result = await ctx.reply(`${L[locale].bot.minusAction()} ${objectUserName} (-${value}) от ${subjectUserName}`);
         clear(ctx, result.message_id);
       }
 
@@ -339,7 +341,7 @@ export const processMessage = async (ctx: Context) => {
       ]);
 
       if (!chat.silent) {
-        const result = await ctx.reply(`${l10n('bot-plus-minus-action')} ${objectUserName} (+${plusValue};-${minusValue}) от ${subjectUserName}`);
+        const result = await ctx.reply(`${L[locale].bot.plusMinusAction()} ${objectUserName} (+${plusValue};-${minusValue}) от ${subjectUserName}`);
         clear(ctx, result.message_id);
       }
 

@@ -1,7 +1,6 @@
-import { getMessage, ILangList } from '../../locales';
-
 import { Chat } from '../models';
-import { botContext } from './bot-ctx';
+
+import { Locales } from '../../i18n/i18n-types';
 
 
 const chatLangMap = new Map<number, string>();
@@ -25,14 +24,5 @@ export const reloadChatLang = async () =>{
 
 reloadChatLang();
 
-export const getLocale = (chatId: number) => chatLangMap.get(chatId) as ILangList || 'ru'
+export const getLocale = (chatId: number) => chatLangMap.get(chatId) as Locales || 'ru'
 
-export const l10n = (id: string, args?: Record<string, string>) =>{
-  const ctx = botContext.getStore();
-  console.log(ctx);
-  console.log(chatLangMap.get(ctx?.chatId || 0));
-  
-  const lang = chatLangMap.get(ctx?.chatId || 0)as ILangList || 'ru' ;
-
-  return getMessage(lang, id, args);
-}
