@@ -12,7 +12,7 @@ export const reloadChatLang = async () =>{
     chatLangMap.clear();
 
     chatList.forEach((chat) => {
-      chatLangMap.set(chat.id, chat.locale);
+      chatLangMap.set(chat.id, chat.locale === 'ru-int' ? 'int' : chat.locale);
     })
     console.log(chatLangMap);
     

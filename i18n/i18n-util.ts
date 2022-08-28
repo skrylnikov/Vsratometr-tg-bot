@@ -9,8 +9,8 @@ import type { Formatters, Locales, Translations, TranslationFunctions } from './
 export const baseLocale: Locales = 'ru'
 
 export const locales: Locales[] = [
-	'ru',
-	'ru-int'
+	'int',
+	'ru'
 ]
 
 export const loadedLocales = {} as Record<Locales, Translations>
