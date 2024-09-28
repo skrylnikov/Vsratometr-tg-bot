@@ -51,3 +51,5 @@ bot.on('message', processMessage);
 bot.on('sticker', processMessage);
 
 bot.catch((e) => { console.error(e) });
+
+console.log('Commands loaded');
