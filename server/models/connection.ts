@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import { readFileSync } from 'fs';
+// import { readFileSync } from 'fs';
 
 import { db } from '../config';
 import pg from 'pg'
@@ -14,13 +14,13 @@ export const sequelize = new Sequelize({
   database: db.name,
   username: db.username,
   password: db.password,
-  dialectOptions: {
-    ssl: {
+  // dialectOptions: {
+  //   ssl: {
 
-      rejectUnauthorized: false,
-      ca: readFileSync('./ca-certificate.crt').toString(),
-    },
-  },
+  //     rejectUnauthorized: false,
+  //     ca: readFileSync('./ca-certificate.crt').toString(),
+  //   },
+  // },
   pool: {
     max: db.maxPool,
   },
