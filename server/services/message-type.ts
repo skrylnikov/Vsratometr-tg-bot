@@ -1,4 +1,4 @@
-import { Message } from 'typegram';
+import { ReplyMessage } from 'typegram';
 
 
 const messageTypeMap: Record<string, string> = {
@@ -16,7 +16,7 @@ const messageTypeMap: Record<string, string> = {
 
 const messageTypeList = Object.keys(messageTypeMap);
 
-export const getMessageType = (message:  Message)=> {
+export const getMessageType = (message:  ReplyMessage)=> {
   for(const type of messageTypeList){
     if(type in message){
       return type;

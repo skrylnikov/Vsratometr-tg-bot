@@ -13,11 +13,11 @@ import { tokenList, addToken, removeToken } from './token';
 import { silentOn, silentOff } from './silent';
 import { spam } from './spam';
 
-import { ctxMiddleware } from '../services';
+// import { ctxMiddleware } from '../services';
 
 import { bot } from '../bot';
 
-bot.use(ctxMiddleware);
+// bot.use(ctxMiddleware);
 
 bot.start(start);
 

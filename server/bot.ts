@@ -4,4 +4,4 @@ import { token } from './config';
 
 console.log(token);
 
-export const bot = new Telegraf(token);
+export const bot = new Telegraf(token,);

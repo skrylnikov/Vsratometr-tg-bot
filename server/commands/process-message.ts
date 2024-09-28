@@ -147,17 +147,17 @@ export const processMessage = async (ctx: Context) => {
   const url = `https://t.me/c/${chatId.toString().slice(4)}/${messageId}`;
 
 
-  const cooldownKey = `${chatId}:${ctx.message.reply_to_message.message_id}:${ctx.message.from.id}`;
+  // const cooldownKey = `${chatId}:${ctx.message.reply_to_message.message_id}:${ctx.message.from.id}`;
 
-  if (cooldownSet.has(cooldownKey)) {
-    if (!chat.silent) {
-      ctx.reply(L[locale].bot.banFrequency(), { reply_to_message_id: ctx.message.message_id });
-    }
-    return;
-  } else {
-    cooldownSet.add(cooldownKey);
-    setTimeout(() => cooldownSet.delete(cooldownKey), 60 * 1000);
-  }
+  // if (cooldownSet.has(cooldownKey)) {
+  //   if (!chat.silent) {
+  //     ctx.reply(L[locale].bot.banFrequency(), { reply_to_message_id: ctx.message.message_id });
+  //   }
+  //   return;
+  // } else {
+  //   cooldownSet.add(cooldownKey);
+  //   setTimeout(() => cooldownSet.delete(cooldownKey), 60 * 1000);
+  // }
 
 
   if (action === Action.plus) {
