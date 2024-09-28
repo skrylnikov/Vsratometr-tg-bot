@@ -8,8 +8,8 @@ interface UserAttributes {
 }
 
 export class User extends Model<UserAttributes, UserAttributes> {
-  public userId!: number;
-  public name!: string;
+  public declare userId: number;
+  public declare name: string;
 }
 
 User.init(

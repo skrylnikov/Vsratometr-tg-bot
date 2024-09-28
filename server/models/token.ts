@@ -14,12 +14,12 @@ export interface TokenAttributes {
 }
 
 export class Token extends Model<TokenAttributes, TokenAttributes> {
-  id!: number;
-  token!: string;
-  repeat!: number;
-  randomRevertRate!: number;
-  type!: ITokenType;
-  tokenSet?: string;
+  public declare id: number;
+  public declare token: string;
+  public declare repeat: number;
+  public declare randomRevertRate: number;
+  public declare type: ITokenType;
+  public declare tokenSet: string;
 }
 
 Token.init(

@@ -10,10 +10,10 @@ interface PlusAttributes {
 }
 
 export class Plus extends Model<PlusAttributes, PlusAttributes> {
-  public userId!: number;
-  public chatId!: number;
-  public name!: string;
-  public value!: number;
+  public declare userId: number;
+  public declare chatId: number;
+  public declare name: string;
+  public declare value: number;
 }
 
 Plus.init(

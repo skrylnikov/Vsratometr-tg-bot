@@ -14,14 +14,14 @@ export interface PostAttributes {
 }
 
 export class Post extends Model<PostAttributes, PostAttributes> {
-  public userId!: number;
-  public chatId!: number;
-  public messageId!: number;
-  public plus!: number;
-  public minus!: number;
-  public url!: string;
-  public created!: Date;
-  public type!: string;
+  public declare userId: number;
+  public declare chatId: number;
+  public declare messageId: number;
+  public declare plus: number;
+  public declare minus: number;
+  public declare url: string;
+  public declare created: Date;
+  public declare type: string;
 }
 
 Post.init(

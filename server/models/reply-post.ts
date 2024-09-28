@@ -13,13 +13,13 @@ interface ReplyPostAttributes {
 }
 
 export class ReplyPost extends Model<ReplyPostAttributes, ReplyPostAttributes> {
-  public userId!: number;
-  public chatId!: number;
-  public messageId!: number;
-  public value!: number;
-  public url!: string;
-  public created?: Date;
-  public type?: string;;
+  public declare userId: number;
+  public declare chatId: number;
+  public declare messageId: number;
+  public declare value: number;
+  public declare url: string;
+  public declare created: Date;
+  public declare type: string;;
 }
 
 ReplyPost.init(

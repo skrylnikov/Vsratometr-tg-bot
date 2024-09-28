@@ -10,10 +10,10 @@ interface MinusAttributes {
 }
 
 export class Minus extends Model<MinusAttributes, MinusAttributes> {
-  public userId!: number;
-  public chatId!: number;
-  public name!: string;
-  public value!: number;
+  public declare userId: number;
+  public declare chatId: number;
+  public declare name: string;
+  public declare value: number;
 }
 
 Minus.init(

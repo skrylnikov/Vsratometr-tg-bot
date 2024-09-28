@@ -8,8 +8,8 @@ export interface TokenToChatAttributes {
 }
 
 export class TokenToChat extends Model<TokenToChatAttributes, TokenToChatAttributes> {
-  chatId!: number;
-  tokenId!: number;
+  public declare chatId: number;
+  public declare tokenId: number;
 }
 
 TokenToChat.init(
