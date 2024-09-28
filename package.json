@@ -10,6 +10,9 @@
     "migrate": "tsx ./scripts/migrate.ts",
     "typesafe-i18n": "typesafe-i18n"
   },
+  "engines": {
+    "node": "20.15.1"
+  },
   "dependencies": {
     "@sweet-monads/either": "^3.1.0",
     "@sweet-monads/maybe": "^3.1.0",

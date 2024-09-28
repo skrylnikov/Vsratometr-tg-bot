@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 import { readFileSync } from 'fs';
 
 import { db } from '../config';
-import * as pg from 'pg'
+import pg from 'pg'
 
 pg.defaults.parseInt8 = true
 
