@@ -25,7 +25,7 @@
     "pg-hstore": "^2.3.4",
     "remeda": "^1.1.0",
     "sequelize": "^6.37.3",
-    "telegraf": "^4.14.3",
+    "telegraf": "^4.16.3",
     "tsx": "^4.19.1",
     "typegram": "^3.10.0",
     "typesafe-i18n": "^5.12.0",
