@@ -9,9 +9,9 @@ export interface ChatAttributes {
 }
 
 export class Chat extends Model<ChatAttributes, ChatAttributes> {
-  public id!: number;
-  public locale!: string;
-  public silent!: boolean;
+  public declare id: number;
+  public declare locale: string;
+  public declare silent: boolean;
 }
 
 Chat.init(
