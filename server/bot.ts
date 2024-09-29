@@ -1,7 +1,5 @@
-import { Telegraf } from 'telegraf';
+import { Bot } from 'grammy'
 
 import { token } from './config';
 
-console.log(token);
-
-export const bot = new Telegraf(token,);
+export const bot = new Bot(token);

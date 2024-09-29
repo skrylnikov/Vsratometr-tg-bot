@@ -1,4 +1,4 @@
-import { Context } from 'telegraf';
+import { Context } from 'grammy';
 
 import { L } from '../../i18n/i18n-node';
 
@@ -10,7 +10,7 @@ const cooldownSet = new Set<string>();
 
 const clear = (ctx: Context, messageId: number) => {
   setTimeout(() => {
-    ctx.deleteMessage(messageId).catch((e) => console.error(e));
+    ctx.api.deleteMessage(ctx.chatId!, messageId).catch((e) => console.error(e));
   }, 10000);
 }
 
@@ -61,7 +61,7 @@ export const processMessage = async (ctx: Context) => {
     return;
   }
 
-  const text = 'text' in ctx.message ? ctx.message.text : 'sticker' in ctx.message ? ctx.message.sticker.emoji : '';
+  const text = 'text' in ctx.message ? ctx.message.text : 'sticker' in ctx.message ? ctx.message.sticker?.emoji : '';
 
   const messageId = ctx.message.reply_to_message?.message_id;
   const objectId = ctx.message.reply_to_message?.from?.id;
@@ -113,18 +113,8 @@ export const processMessage = async (ctx: Context) => {
     return;
   }
 
-  if (ctx.message.reply_to_message?.from?.id === ctx.message.from.id) {
-    if (locale === 'ru-int') {
-      const url = await ctx.tg.getFileLink('CAACAgIAAxkBAAMoYDqZhNYMEOhZMgABZr5tG1bko4MUAAJ2AAMz-LcVOuDuXdTVMogeBA')
 
-      if (url?.href && !chat.silent) {
-        ctx.replyWithSticker({ url: url.href }, { reply_to_message_id: ctx.message.message_id });
-      }
-    }
-    return;
-  }
-
-  if (ctx.message.reply_to_message?.from?.id === (await ctx.telegram.getMe()).id && !chat.silent) {
+  if (ctx.message.reply_to_message?.from?.id === (await ctx.api.getMe()).id && !chat.silent) {
     ctx.reply(L[locale].bot.banMeRate(), { reply_to_message_id: ctx.message.message_id });
     return;
   }
@@ -147,17 +137,17 @@ export const processMessage = async (ctx: Context) => {
   const url = `https://t.me/c/${chatId.toString().slice(4)}/${messageId}`;
 
 
-  // const cooldownKey = `${chatId}:${ctx.message.reply_to_message.message_id}:${ctx.message.from.id}`;
+  const cooldownKey = `${chatId}:${ctx.message.reply_to_message.message_id}:${ctx.message.from.id}`;
 
-  // if (cooldownSet.has(cooldownKey)) {
-  //   if (!chat.silent) {
-  //     ctx.reply(L[locale].bot.banFrequency(), { reply_to_message_id: ctx.message.message_id });
-  //   }
-  //   return;
-  // } else {
-  //   cooldownSet.add(cooldownKey);
-  //   setTimeout(() => cooldownSet.delete(cooldownKey), 60 * 1000);
-  // }
+  if (cooldownSet.has(cooldownKey)) {
+    if (!chat.silent) {
+      ctx.reply(L[locale].bot.banFrequency(), { reply_to_message_id: ctx.message.message_id });
+    }
+    return;
+  } else {
+    cooldownSet.add(cooldownKey);
+    setTimeout(() => cooldownSet.delete(cooldownKey), 60 * 1000);
+  }
 
 
   if (action === Action.plus) {

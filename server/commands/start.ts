@@ -1,4 +1,4 @@
-import { Context } from 'telegraf';
+import { Context } from 'grammy';
 
 export const start = (ctx: Context) => {
   console.log('start command')

@@ -3,11 +3,11 @@ import "./commands";
 
 console.log("Starting bot...");
 
+bot.catch((e) => { console.error(e) });
+
+
 bot
-  .launch()
-  .then(() => {
-    console.log("Bot started");
-  })
+  .start()
   .catch((e) => {
     console.error(e);
   });

@@ -71,10 +71,6 @@ export const getPostStats = async (chatId: number, lashHours?: number) => {
 
   const locale = getLocale(chatId);
 
-  console.log(locale);
-  
-
-
   if(superTop.length == 0 && top.length === 0 && bottom.length === 0){
     return L[locale].bot.topEmpty();
   }

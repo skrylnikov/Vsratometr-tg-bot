@@ -1,3 +1,5 @@
+import { Composer } from "grammy";
+
 import { start } from './start';
 import { processMessage } from './process-message';
 import { stats } from './stat';
@@ -13,43 +15,38 @@ import { tokenList, addToken, removeToken } from './token';
 import { silentOn, silentOff } from './silent';
 import { spam } from './spam';
 
-// import { ctxMiddleware } from '../services';
+export const commands = new Composer();
 
-import { bot } from '../bot';
+commands.command('start', start);
 
-// bot.use(ctxMiddleware);
+commands.command('stats', stats);
+commands.command('post_stats', postStats);
+commands.command('post_stats_all', postStatsAll);
+commands.command('reply_stats', replyStats);
+commands.command('reply_stats_all', replyStatsAll);
 
-bot.start(start);
-
-bot.command('/stats', stats);
-bot.command('/post_stats', postStats);
-bot.command('/post_stats_all', postStatsAll);
-bot.command('/reply_stats', replyStats);
-bot.command('/reply_stats_all', replyStatsAll);
-
-bot.command('/migrate', migrate);
-bot.command('/anal', anal);
-bot.command('/spam', spam);
+commands.command('migrate', migrate);
+commands.command('anal', anal);
+commands.command('spam', spam);
 
 
-bot.command('/intellectuals_set_on', intellectualsSetOn);
-bot.command('/intellectuals_set_off', intellectualsSetOff);
+commands.command('intellectuals_set_on', intellectualsSetOn);
+commands.command('intellectuals_set_off', intellectualsSetOff);
 
-bot.command('/random_emoji_set_on', randomEmojiSetOn);
-bot.command('/random_emoji_set_off', randomEmojiSetOff);
+commands.command('random_emoji_set_on', randomEmojiSetOn);
+commands.command('random_emoji_set_off', randomEmojiSetOff);
 
-bot.command('/silent_on', silentOn);
-bot.command('/silent_off', silentOff);
-
-
-bot.command('/add_token', addToken);
-bot.command('/remove_token', removeToken);
-bot.command('/token_list', tokenList);
+commands.command('silent_on', silentOn);
+commands.command('silent_off', silentOff);
 
 
-bot.on('message', processMessage);
-bot.on('sticker', processMessage);
+commands.command('add_token', addToken);
+commands.command('remove_token', removeToken);
+commands.command('token_list', tokenList);
 
-bot.catch((e) => { console.error(e) });
+
+commands.on('message', processMessage);
+commands.on(':sticker', processMessage);
+
 
 console.log('Commands loaded');

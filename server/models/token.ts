@@ -10,7 +10,7 @@ export interface TokenAttributes {
   repeat: number;
   randomRevertRate: number;
   type: ITokenType;
-  tokenSet?: string;
+  tokenSet?: string | null;
 }
 
 export class Token extends Model<TokenAttributes, TokenAttributes> {
@@ -19,7 +19,7 @@ export class Token extends Model<TokenAttributes, TokenAttributes> {
   public declare repeat: number;
   public declare randomRevertRate: number;
   public declare type: ITokenType;
-  public declare tokenSet: string;
+  public declare tokenSet: string | null;
 }
 
 Token.init(

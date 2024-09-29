@@ -1,4 +1,4 @@
-import { Context } from 'telegraf';
+import { Context } from 'grammy';
 import { godId } from '../config';
 
 import { Token, TokenToChat, Chat } from '../models';

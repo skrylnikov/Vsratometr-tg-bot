@@ -1,11 +1,11 @@
-import { uniq } from 'remeda';
+import { unique } from 'remeda';
 
 import { User } from '../models';
 import { bot } from '../bot';
 
 
 export const getUserMap = async (rawIdList: number[], chatId: number) => {
-  const idList = uniq(rawIdList);
+  const idList = unique(rawIdList);
 
   const userList = await User.findAll({where: { userId: idList }});
 
@@ -15,7 +15,7 @@ export const getUserMap = async (rawIdList: number[], chatId: number) => {
 
   for(const id of notFoundedIdList){
     try {
-    const { user } = await bot.telegram.getChatMember(chatId, id);
+    const { user } = await bot.api.getChatMember(chatId, id);
 
     const name = user.first_name || user.last_name || user.username || 'Анонимус';
 

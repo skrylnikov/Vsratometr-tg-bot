@@ -1,9 +1,7 @@
-import { Context } from 'telegraf';
+import { Context } from 'grammy';
 import { godId } from '../config';
 
-import { Token, TokenToChat, Chat } from '../models';
-
-import { reloadChatLang } from '../services';
+import { Chat } from '../models';
 
 export const silentOn = async (ctx: Context) => {
   const userId = ctx.message?.from?.id;

@@ -1,4 +1,4 @@
-import { Context } from 'telegraf';
+import { Context } from 'grammy';
 
 import { Chat } from '../models';
 import { godId } from '../config';
@@ -28,7 +28,7 @@ export const spam = async (ctx: Context) => {
     return;
   }
 
-  const text = 'text' in ctx.message ? ctx.message.text : 'sticker' in ctx.message ? ctx.message.sticker.emoji : '';
+  const text = 'text' in ctx.message ? ctx.message.text : 'sticker' in ctx.message ? ctx.message.sticker?.emoji : '';
 
   const messageId = ctx.message.reply_to_message?.message_id;
   const objectId = ctx.message.reply_to_message?.from?.id;
@@ -51,7 +51,7 @@ export const spam = async (ctx: Context) => {
     let fail = 0;
     for (const chat of chatList) {
       try {
-        await ctx.telegram.sendMessage(chat.id, ctx.message.reply_to_message.text);
+        await ctx.api.sendMessage(chat.id, ctx.message.reply_to_message.text!);
         success++;
 
       } catch (e) {

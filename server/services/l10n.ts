@@ -1,8 +1,5 @@
 import { Chat } from '../models';
 
-import { Locales } from '../../i18n/i18n-types';
-
-
 const chatLangMap = new Map<number, string>();
 
 export const reloadChatLang = async () =>{
@@ -24,5 +21,5 @@ export const reloadChatLang = async () =>{
 
 reloadChatLang();
 
-export const getLocale = (chatId: number) => chatLangMap.get(chatId) as Locales || 'ru'
+export const getLocale = (chatId: number) => chatLangMap.get(chatId) as 'ru' | 'ru-int' || 'ru'
 

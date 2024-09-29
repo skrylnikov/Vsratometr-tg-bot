@@ -1,4 +1,4 @@
-import { Context } from 'telegraf';
+import { Context } from 'grammy';
 import { pipe, sort } from 'remeda';
 
 import { L } from '../../i18n/i18n-node';
