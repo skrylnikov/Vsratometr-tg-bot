@@ -1,13 +1,14 @@
 import { bot } from "./bot";
-import "./commands";
+import { commands } from "./commands";
 
 console.log("Starting bot...");
 
-bot.catch((e) => { console.error(e) });
+bot.use(commands);
 
+bot.catch((e) => {
+  console.error(e);
+});
 
-bot
-  .start()
-  .catch((e) => {
-    console.error(e);
-  });
+bot.start().catch((e) => {
+  console.error(e);
+});
